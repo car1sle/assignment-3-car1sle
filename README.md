@@ -49,6 +49,7 @@ We will be grading based on the features listed above and overall code quality
 ### Deployment Instructions (GH actions)
 
 [Deployment instructions](https://github.com/prof-tejera/react-deployment-code#github-actions)
+[https://prof-tejera.github.io/assignment-3-car1sle](https://prof-tejera.github.io/assignment-3-car1sle)
 
 ## Bonus
 

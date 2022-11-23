@@ -27,7 +27,7 @@ export const usePersistedState = (storageKey, fallbackValue) => {
     const storedValue = window.localStorage.getItem(storageKey);
 
     if (storedValue === null || !storedValue) {
-      console.log('returning fallback', fallbackValue)
+      console.log('returning fallback for' , storageKey , fallbackValue)
       return fallbackValue;
     }
 

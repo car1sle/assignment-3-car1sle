@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { v4 as uuid } from "uuid";
 import { useInterval, usePersistedState } from "./utils/hooks";
 import { translateToSeconds } from "./utils/helpers";
@@ -8,12 +8,13 @@ export const AppContext = React.createContext({});
 export const AppProvider = ({ children }) => {
 
     const [timers, setTimers] = usePersistedState('timers', []);
-    const [paused, setPaused] = useState(true);
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [currentTime, setCurrentTime] = useState(0);
-    const [isComplete, setIsComplete] = useState(false);
-    const [currentRound, setCurrentRound] = useState(1);
-    const [onlyEnableStart, setOnlyEnableStart] = useState(true);
+    // console.log(JSON.stringify(timers));
+    const [paused, setPaused] = usePersistedState('paused', true);
+    const [activeIndex, setActiveIndex] = usePersistedState('activeIndex', 0);
+    const [currentTime, setCurrentTime] = usePersistedState('currentTime', 0);
+    const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
+    const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
+    const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', true);
 
     useInterval(() => {
       if (paused || activeIndex >= timers.length) return;
