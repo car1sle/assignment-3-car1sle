@@ -8,7 +8,7 @@ export const AppContext = React.createContext({});
 export const AppProvider = ({ children }) => {
 
     const [timers, setTimers] = usePersistedState('timers', []);
-    // console.log(JSON.stringify(timers));
+    console.log(JSON.stringify(timers));
     const [paused, setPaused] = usePersistedState('paused', true);
     const [activeIndex, setActiveIndex] = usePersistedState('activeIndex', 0);
     const [currentTime, setCurrentTime] = usePersistedState('currentTime', 0);
@@ -82,6 +82,7 @@ export const AppProvider = ({ children }) => {
               totalDuration: ((translateToSeconds(inputHours, inputMinutes, inputSeconds) * inputRounds) + (translateToSeconds(input2Hours, input2Minutes, input2Seconds) * inputRounds)),
             }]);
             currentTime === 0 && setOnlyEnableStart(true);
+            reset();
           },
           removeTimer: index => setTimers(timers.filter((t, i) => i !== index)),
         }}
