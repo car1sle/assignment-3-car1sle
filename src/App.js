@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import TimersView from "./views/TimersView";
 import CreateTimerView from "./views/CreateTimerView";
 import ButtonsView from "./views/ButtonsView";
-import { AppProvider } from "./AppProvider";
+import { AppProvider, AppContext } from "./AppProvider";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -11,6 +11,11 @@ const Container = styled.div`
   height: 100vh;
   overflow: auto;
 `;
+
+const AddTimerButton = () => {
+  const { timers, paused } = useContext(AppContext);
+  return <button disabled={(timers.length === 0) ? false : !paused} style={{ margin: "0 auto", textAlign: "center",}}>Add a timer</button>
+};
 
 const TimersPage = () => {
   return (
@@ -20,7 +25,7 @@ const TimersPage = () => {
         <TimersView />
         <div style={{ margin: "0 auto 50px", textAlign: "center",}}>
           <Link to="/assignment-3-car1sle/add">
-            <button style={{ margin: "0 auto", textAlign: "center",}}>Add a timer</button>
+            <AddTimerButton />
           </Link>
         </div>
       </AppProvider>

@@ -23,12 +23,15 @@ export const useInterval = (callback, delay) => {
 };
 
 export const usePersistedState = (storageKey, fallbackValue) => {
+
   const [value, setValue] = useState(() => {
     const storedValue = window.localStorage.getItem(storageKey);
 
-    if (storedValue === null || !storedValue) {
-      console.log('returning fallback for' , storageKey , fallbackValue)
-      return fallbackValue;
+    if (storageKey !== 'paused') {
+      if (storedValue === null || !storedValue) {
+        // console.log('returning fallback for' , storageKey , fallbackValue)
+        return fallbackValue;
+      }
     }
 
     try {

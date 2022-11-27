@@ -4,7 +4,7 @@ import { Button } from '../components/generic/Button';
 
 const ButtonsView = () => {
 
-    const { timers, currentTime, paused, setPaused, reset, fastForward, isComplete, onlyEnableStart, setOnlyEnableStart } = useContext(AppContext);
+    const { timers, currentTime, activeIndex, paused, setPaused, reset, fastForward, isComplete, onlyEnableStart, setOnlyEnableStart } = useContext(AppContext);
 
     const handleClick = value => {
 
@@ -29,7 +29,7 @@ const ButtonsView = () => {
             <div style={{ margin: "20px 0", display: "flex", justifyContent: "space-between",}}>
                 <div style={{ flexBasis: "33%",}}>
                     {makeButton({
-                        value: isComplete || (paused && currentTime === 0) ? 'Start' : paused ? 'Resume' : 'Pause',
+                        value: isComplete || (paused && currentTime === 0 && activeIndex === 0) ? 'Start' : paused ? 'Resume' : 'Pause',
                         disabledValue: isComplete,
                     })}
                 </div>
