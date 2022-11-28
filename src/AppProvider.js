@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useInterval, usePersistedState } from "./utils/hooks";
 import { translateToSeconds } from "./utils/helpers";
 import { useParams, useNavigate } from 'react-router-dom';
-import { PATHS } from "./constants";
 
 export const AppContext = React.createContext({});
 
@@ -20,8 +19,6 @@ export const AppProvider = ({ children }) => {
     const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
-    console.log(timersFromUrl);
-    console.log(timers);
 
     useEffect(() => {
 
@@ -104,7 +101,7 @@ export const AppProvider = ({ children }) => {
           removeTimer: index => {
             const tempTimers = timers.filter((t, i) => i !== index);
             setTimers(tempTimers);
-            navigate(PATHS.WORKOUT.VIEW(encodeURI(encodeURI(JSON.stringify(tempTimers)))));
+            navigate(`/assignment-3-car1sle/workout/${encodeURI(encodeURI(JSON.stringify(tempTimers)))}`);
           }
         }}
       >

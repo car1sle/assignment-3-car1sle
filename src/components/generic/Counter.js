@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import trash from '../../images/trash.png';
 import { AppContext } from "../../AppProvider";
-import { PATHS } from "../../constants";
 
 const StyledCounter = styled.div`
   text-align: center;
@@ -25,7 +24,7 @@ const Counter = ({ label, duration, progress, removeClick }) => {
             removeClick();
             reset();
             if (timers.length === 1) {
-              navigate(PATHS.HOME);
+              navigate("/assignment-3-car1sle");
             }
           }
         }} /> : <div style={{ width: "17px",}}></div>}
