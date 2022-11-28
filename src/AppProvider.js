@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { v4 as uuid } from "uuid";
 import { useInterval, usePersistedState } from "./utils/hooks";
 import { translateToSeconds } from "./utils/helpers";
 import { useParams, useNavigate } from 'react-router-dom';
@@ -9,6 +8,7 @@ export const AppContext = React.createContext({});
 
 export const AppProvider = ({ children }) => {
   
+    const short = require('short-uuid');
     const navigate = useNavigate();
     const { path } = useParams();
     const timersFromUrl = path ? JSON.parse(path) : [];
@@ -28,7 +28,8 @@ export const AppProvider = ({ children }) => {
       if (path && encodeURI(JSON.stringify(timers)) !== encodeURI(path)) {
         setTimers(timersFromUrl);
       }
-      
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timers, timersFromUrl]);
 
     useInterval(() => {
@@ -85,7 +86,7 @@ export const AppProvider = ({ children }) => {
           reset: reset,
           fastForward: fastForward,
           createTimer: ({ timerType, inputHours, inputMinutes, inputSeconds, input2Hours, input2Minutes, input2Seconds, inputRounds = 1 }) => {
-            const id = uuid();
+            const id = short.generate();
             setTimers([...timers, { 
               id, 
               timerType, 

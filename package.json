@@ -8,6 +8,7 @@
     "react-router": "^5.2.1",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
+    "short-uuid": "^4.2.2",
     "styled-components": "^5.3.6",
     "uuid": "^9.0.0"
   },

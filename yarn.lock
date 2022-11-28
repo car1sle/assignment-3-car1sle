@@ -2440,6 +2440,11 @@
   "resolved" "https://registry.npmjs.org/ansi-styles/-/ansi-styles-5.2.0.tgz"
   "version" "5.2.0"
 
+"any-base@^1.1.0":
+  "integrity" "sha512-uMgjozySS8adZZYePpaWs8cxB9/kdzmpX6SgJZ+wbz1K5eYk5QMYDVJaZKhxyIHUdnnJkfR7SVgStgH7LkGUyg=="
+  "resolved" "https://registry.npmjs.org/any-base/-/any-base-1.1.0.tgz"
+  "version" "1.1.0"
+
 "anymatch@^3.0.3", "anymatch@~3.1.2":
   "integrity" "sha512-P43ePfOAIupkguHUycrc4qJ9kz8ZiuOUijaETwX7THt0Y/GNK7v0aa8rY816xWjZ7rJdA5XdMcpVFTKMq+RvWg=="
   "resolved" "https://registry.npmjs.org/anymatch/-/anymatch-3.1.2.tgz"
@@ -7864,6 +7869,14 @@
   "integrity" "sha512-Vpfqwm4EnqGdlsBFNmHhxhElJYrdfcxPThu+ryKS5J8L/fhAwLazFZtq+S+TWZ9ANj2piSQLGj6NQg+lKPmxrw=="
   "resolved" "https://registry.npmjs.org/shell-quote/-/shell-quote-1.7.3.tgz"
   "version" "1.7.3"
+
+"short-uuid@^4.2.2":
+  "integrity" "sha512-IE7hDSGV2U/VZoCsjctKX6l5t5ak2jE0+aeGJi3KtvjIUNuZVmHVYUjNBhmo369FIWGDtaieRaO8A83Lvwfpqw=="
+  "resolved" "https://registry.npmjs.org/short-uuid/-/short-uuid-4.2.2.tgz"
+  "version" "4.2.2"
+  dependencies:
+    "any-base" "^1.1.0"
+    "uuid" "^8.3.2"
 
 "side-channel@^1.0.4":
   "integrity" "sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw=="
