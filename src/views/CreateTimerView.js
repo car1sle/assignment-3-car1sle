@@ -135,7 +135,7 @@ const CreateTimerView = () => {
                     setInputRounds(1);
                     setConfirmationMessage(`${timerType} added to queue`);
                     }}
-                >Add To Queue</button>
+                >Add to queue</button>
             </div>
         </>
     );

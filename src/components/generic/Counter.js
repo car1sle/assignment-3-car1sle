@@ -1,7 +1,9 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import trash from '../../images/trash.png';
 import { AppContext } from "../../AppProvider";
+import { PATHS } from "../../constants";
 
 const StyledCounter = styled.div`
   text-align: center;
@@ -13,7 +15,8 @@ const StyledCounter = styled.div`
 
 const Counter = ({ label, duration, progress, removeClick }) => {
 
-  const { paused, reset } = useContext(AppContext);
+  const { timers, paused, reset } = useContext(AppContext);
+  const navigate = useNavigate();
 
   return (
       <div style={{ display: "flex", alignItems: "center", gap: "35px", padding: "0 0 20px",}}>
@@ -21,6 +24,9 @@ const Counter = ({ label, duration, progress, removeClick }) => {
           if (paused) {
             removeClick();
             reset();
+            if (timers.length === 1) {
+              navigate(PATHS.HOME);
+            }
           }
         }} /> : <div style={{ width: "17px",}}></div>}
         <div>{label}:<br></br><StyledCounter>{duration}</StyledCounter></div>

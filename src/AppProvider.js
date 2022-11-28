@@ -1,20 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import { useInterval, usePersistedState } from "./utils/hooks";
 import { translateToSeconds } from "./utils/helpers";
+import { useParams, useNavigate } from 'react-router-dom';
+import { PATHS } from "./constants";
 
 export const AppContext = React.createContext({});
 
 export const AppProvider = ({ children }) => {
+  
+    const navigate = useNavigate();
+    const { path } = useParams();
+    const timersFromUrl = path ? JSON.parse(path) : [];
 
-    const [timers, setTimers] = usePersistedState('timers', []);
-    console.log(JSON.stringify(timers));
+    const [timers, setTimers] = usePersistedState('timers', timersFromUrl);
     const [paused, setPaused] = usePersistedState('paused', true);
     const [activeIndex, setActiveIndex] = usePersistedState('activeIndex', 0);
     const [currentTime, setCurrentTime] = usePersistedState('currentTime', 0);
     const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
+    console.log(timersFromUrl);
+    console.log(timers);
+
+    useEffect(() => {
+
+      if (path && encodeURI(JSON.stringify(timers)) !== encodeURI(path)) {
+        setTimers(timersFromUrl);
+      }
+      
+    }, [timers, timersFromUrl]);
 
     useInterval(() => {
       if (paused || activeIndex >= timers.length) return;
@@ -55,6 +70,7 @@ export const AppProvider = ({ children }) => {
       <AppContext.Provider
         value={{
           timers,
+          setTimers,
           currentTime,
           currentRound,
           setCurrentTime,
@@ -84,7 +100,11 @@ export const AppProvider = ({ children }) => {
             currentTime === 0 && setOnlyEnableStart(true);
             reset();
           },
-          removeTimer: index => setTimers(timers.filter((t, i) => i !== index)),
+          removeTimer: index => {
+            const tempTimers = timers.filter((t, i) => i !== index);
+            setTimers(tempTimers);
+            navigate(PATHS.WORKOUT.VIEW(encodeURI(encodeURI(JSON.stringify(tempTimers)))));
+          }
         }}
       >
         {children}

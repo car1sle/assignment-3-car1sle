@@ -1,4 +1,8 @@
 export const PATHS = {
 	HOME: '/',
-    ADD: '/add'
+    ADD: '/add',
+    WORKOUT: {
+        NOVIEW: '/workout/',
+		VIEW: path => `/workout/${path || ':path'}`,
+	},
 };
