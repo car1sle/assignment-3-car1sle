@@ -4,7 +4,7 @@ import TimersView from "./views/TimersView";
 import CreateTimerView from "./views/CreateTimerView";
 import ButtonsView from "./views/ButtonsView";
 import { AppProvider, AppContext } from "./AppProvider";
-import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   background: #ffffff;
@@ -17,9 +17,15 @@ const RedirectToHomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/assignment-3-car1sle");
+    
+    setTimeout(() => {
+      navigate("/assignment-3-car1sle");
+    }, "1500")
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  return <div style={{ textAlign: "center", margin: "50px 0",}}>This page doesn't exist!<br /><br />Redirecting you to homepage</div>
 
 };
 
@@ -118,14 +124,14 @@ const CreateTimerPage = () => {
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path="/assignment-3-car1sle" element={<HomePage />} />
         <Route path="/assignment-3-car1sle/add" element={<CreateTimerPage />} />
         <Route path="/assignment-3-car1sle/workout/:path" element={<TimersPage />} />
-        <Route path="/assignment-3-car1sle/workout/" element={<RedirectToHomePage />} />
+        <Route path="*" element={<RedirectToHomePage />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 };
 
