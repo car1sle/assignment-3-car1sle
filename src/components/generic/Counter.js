@@ -24,7 +24,7 @@ const Counter = ({ label, duration, progress, removeClick }) => {
             removeClick();
             reset();
             if (timers.length === 1) {
-              navigate("/assignment-3-car1sle");
+              navigate("/");
             }
           }
         }} /> : <div style={{ width: "17px",}}></div>}

@@ -101,7 +101,7 @@ export const AppProvider = ({ children }) => {
           removeTimer: index => {
             const tempTimers = timers.filter((t, i) => i !== index);
             setTimers(tempTimers);
-            navigate(`/assignment-3-car1sle/workout/${encodeURI(encodeURI(JSON.stringify(tempTimers)))}`);
+            navigate(`/workout/${encodeURI(encodeURI(JSON.stringify(tempTimers)))}`);
           }
         }}
       >
