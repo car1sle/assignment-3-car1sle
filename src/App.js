@@ -19,7 +19,7 @@ const RedirectToHomePage = () => {
   useEffect(() => {
     
     setTimeout(() => {
-      navigate("/assignment-3-car1sle");
+      navigate("/");
     }, "1500")
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,7 +42,7 @@ const HomePageInner = () => {
   return (
     <div style={{ margin: "50px auto", textAlign: "center",}}>
       <div style={{ margin: "0 0 30px",}}>You have no timers in the queue.</div>
-      <Link to="/assignment-3-car1sle/add">
+      <Link to="/add">
         <button style={{ margin: "0 auto", textAlign: "center",}}>Build your workout</button>
       </Link>
     </div>
@@ -69,10 +69,10 @@ const TimersPageInner = () => {
       <ButtonsView />
       <TimersView />
       <div style={{ display: "flex", margin: "0 auto 50px", justifyContent: "center",}}>
-        <Link to="/assignment-3-car1sle/add">
+        <Link to="/add">
           <button disabled={(timers.length === 0) ? false : !paused} style={{ margin: "0 5px", textAlign: "center", width: "90px",}}>Add a timer</button>
         </Link>
-        <Link to="/assignment-3-car1sle">
+        <Link to="/">
           <button disabled={(timers.length === 0) ? false : !paused} style={{ margin: "0 5px", textAlign: "center", width: "90px",}}>Start over</button>
         </Link>
       </div>
@@ -102,7 +102,7 @@ const CreateTimerPageInner = () => {
   return (
     <>
       <div style={{ margin: "0 auto", textAlign: "center",}}>
-        <Link to={`/assignment-3-car1sle/workout/${encodeURI(encodeURI(JSON.stringify(timers)))}`}>
+        <Link to={`/w/${encodeURI(encodeURI(JSON.stringify(timers)))}`}>
           <div style={{ margin: "15px auto", textAlign: "center", textDecoration: "underline", color: "#305bbf",}}><Arrow /> Go back to workout</div>
         </Link>
       </div>
@@ -124,11 +124,11 @@ const CreateTimerPage = () => {
 
 const App = () => {
   return (
-    <Router>
+    <Router basename="/workout">
       <Routes>
-        <Route path="/assignment-3-car1sle" element={<HomePage />} />
-        <Route path="/assignment-3-car1sle/add" element={<CreateTimerPage />} />
-        <Route path="/assignment-3-car1sle/workout/:path" element={<TimersPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/add" element={<CreateTimerPage />} />
+        <Route path="/w/:path" element={<TimersPage />} />
         <Route path="*" element={<RedirectToHomePage />} />
       </Routes>
     </Router>
