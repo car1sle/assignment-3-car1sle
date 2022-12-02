@@ -46,23 +46,23 @@ const TimersView = () => {
     };
   };
 
-  const totalQueueDuration = translateFromSeconds(timers.reduce((total, obj) => obj.totalDuration + total,0));
+  const totalQueueDur = translateFromSeconds(timers.reduce((total, obj) => obj.totalDur + total,0));
 
   return (
     <Timers>
-      <div style={{ fontSize: "18px",padding: "0 0 10px",}}>Total workout time: <b>{totalQueueDuration}</b></div>
+      <div style={{ fontSize: "18px",padding: "0 0 10px",}}>Total workout time: <b>{totalQueueDur}</b></div>
       {timers && timers.map((timer, index) => (
         <Timer key={timer.id}>
-          <TimerTitle>{timer.timerType}</TimerTitle>
+          <TimerTitle>{timer.timerT}</TimerTitle>
           <div style={{ width: "430px", padding: "15px 0 15px 25px",}}>
-            <InnerTimer type={timer.timerType} props={{
+            <InnerTimer type={timer.timerT} props={{
               index: index,
-              workoutRoundDuration: timer.workoutRoundDuration,
-              restRoundDuration: timer.restRoundDuration,
-              roundDuration: timer.roundDuration,
-              totalWorkoutDuration: timer.totalWorkoutDuration,
-              totalRestDuration: timer.totalRestDuration,
-              totalDuration: timer.totalWorkoutDuration,
+              workoutRoundDur: timer.workoutRoundDur,
+              restRoundDur: timer.restRoundDur,
+              roundDur: timer.roundDur,
+              totalWorkoutDur: timer.totalWorkoutDur,
+              totalRestDur: timer.totalRestDur,
+              totalDur: timer.totalWorkoutDur,
               rounds: timer.inputRounds,
               progress: currentTime,
               status: index === activeIndex ? 'Current' : index > activeIndex ? 'Upcoming' : 'Complete',

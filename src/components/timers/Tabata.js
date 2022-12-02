@@ -5,7 +5,7 @@ import Counter from '../generic/Counter';
 
 const XY = ({ props }) => {
 
-    const { index, workoutRoundDuration, restRoundDuration, progress, status, rounds, totalWorkoutDuration, totalRestDuration } = props;
+    const { index, workoutRoundDur, restRoundDur, progress, status, rounds, totalWorkoutDur, totalRestDur } = props;
     const { timers, removeTimer, setIsComplete, currentRound } = useContext(AppContext);
 
     // I tried moving this to hooks.js to dry it up, but gave an error
@@ -21,8 +21,8 @@ const XY = ({ props }) => {
     let currentRoundVal;
 
     if (status === 'Current') {
-        progressVal = (workoutRoundDuration - progress) > 0 ? translateFromSeconds(workoutRoundDuration - progress) : translateFromSeconds(0);
-        progressVal2 = (workoutRoundDuration - progress) > 0 ? translateFromSeconds(restRoundDuration) : translateFromSeconds(restRoundDuration - (progress - workoutRoundDuration));
+        progressVal = (workoutRoundDur - progress) > 0 ? translateFromSeconds(workoutRoundDur - progress) : translateFromSeconds(0);
+        progressVal2 = (workoutRoundDur - progress) > 0 ? translateFromSeconds(restRoundDur) : translateFromSeconds(restRoundDur - (progress - workoutRoundDur));
         currentRoundVal = currentRound;
     } else {
         progressVal = status;
@@ -36,8 +36,8 @@ const XY = ({ props }) => {
 
     return (
         <>
-            <Counter label="Workout time" duration={translateFromSeconds(totalWorkoutDuration)} progress={progressVal} removeClick={() => removeTimer(index)} />
-            <Counter label="Rest time" duration={translateFromSeconds(totalRestDuration)} progress={progressVal2} />
+            <Counter label="Workout time" duration={translateFromSeconds(totalWorkoutDur)} progress={progressVal} removeClick={() => removeTimer(index)} />
+            <Counter label="Rest time" duration={translateFromSeconds(totalRestDur)} progress={progressVal2} />
             <div style={{ textAlign: "center", padding: "5px 0 0",}}>Round: <b>{currentRoundVal}</b> of {rounds}</div>
         </>
 

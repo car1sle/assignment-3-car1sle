@@ -5,7 +5,7 @@ import Counter from '../generic/Counter';
 
 const XY = ({ props }) => {
 
-    const { index, workoutRoundDuration, progress, status, rounds, totalDuration } = props;
+    const { index, workoutRoundDur, progress, status, rounds, totalDur } = props;
     const { timers, removeTimer, setIsComplete, currentRound } = useContext(AppContext);
 
     // I tried moving this to hooks.js to dry it up, but gave an error
@@ -20,7 +20,7 @@ const XY = ({ props }) => {
     let currentRoundVal;
 
     if (status === 'Current') {
-        progressVal = translateFromSeconds(workoutRoundDuration - progress);
+        progressVal = translateFromSeconds(workoutRoundDur - progress);
         currentRoundVal = currentRound;
     } else {
         progressVal = status;
@@ -33,7 +33,7 @@ const XY = ({ props }) => {
 
     return (
         <>
-            <Counter label="Workout time" duration={translateFromSeconds(totalDuration)} progress={progressVal} removeClick={() => removeTimer(index)} />
+            <Counter label="Workout time" duration={translateFromSeconds(totalDur)} progress={progressVal} removeClick={() => removeTimer(index)} />
             <div style={{ textAlign: "center", padding: "5px 0 0",}}>Round: <b>{currentRoundVal}</b> of {rounds}</div>
         </>
 

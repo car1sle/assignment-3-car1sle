@@ -15,7 +15,7 @@ const CreateTimerView = () => {
     const defaultTimer = 'Choose Your Timer';
 
     const { createTimer } = useContext(AppContext);
-    const [timerType, setTimerType] = useState(defaultTimer);
+    const [timerT, setTimerT] = useState(defaultTimer);
     const [inputHours, setInputHours] = useState(0);
     const [inputMinutes, setInputMinutes] = useState(0);
     const [inputSeconds, setInputSeconds] = useState(0);
@@ -26,10 +26,10 @@ const CreateTimerView = () => {
     const [confirmationMessage, setConfirmationMessage] = useState('');
 
     useEffect(() => {
-        if (timerType === "Stopwatch" || timerType === "Countdown" || timerType === "Tabata") {
+        if (timerT === "Stopwatch" || timerT === "Countdown" || timerT === "Tabata") {
             setInputRounds(1);
         }
-    }, [timerType]);
+    }, [timerT]);
 
     useEffect(() => {
         if (confirmationMessage) {
@@ -40,10 +40,10 @@ const CreateTimerView = () => {
     }, [confirmationMessage]);
 
     const timers = [
-        { timerType: "Stopwatch" },
-        { timerType: "Countdown" },
-        { timerType: "XY" },
-        { timerType: "Tabata" },
+        { timerT: "Stopwatch" },
+        { timerT: "Countdown" },
+        { timerT: "XY" },
+        { timerT: "Tabata" },
     ];
 
     const makeInput = ({state, setter, label}) => {
@@ -52,21 +52,21 @@ const CreateTimerView = () => {
         }} />
     };
 
-    const Dropdown = ({timers, timerType}) => {
+    const Dropdown = ({timers, timerT}) => {
         return (
             <div style={{ textAlign: "center", margin: "30px 0 20px",}}>
-                <StyledDropdown id="timers" onChange={e => {setTimerType(e.target.value);}}>
-                    <option value={timerType}>{timerType}</option>
-                    {timers.map(timer => timerType !== timer.timerType && <option key={timer.timerType} value={timer.timerType}>{timer.timerType}</option>)}
+                <StyledDropdown id="timers" onChange={e => {setTimerT(e.target.value);}}>
+                    <option value={timerT}>{timerT}</option>
+                    {timers.map(timer => timerT !== timer.timerT && <option key={timer.timerT} value={timer.timerT}>{timer.timerT}</option>)}
                 </StyledDropdown>
             </div>
         )
     };
 
-    if (timerType === defaultTimer) {
+    if (timerT === defaultTimer) {
         return (
             <>
-                <Dropdown timers={timers} timerType={timerType} />
+                <Dropdown timers={timers} timerT={timerT} />
                 {confirmationMessage && <div style={{ textAlign: "center", fontStyle: "italic", color: "green",}}>{confirmationMessage}</div>}
             </>
         )
@@ -74,7 +74,7 @@ const CreateTimerView = () => {
 
     return (
         <>
-            <Dropdown timers={timers} timerType={timerType} />
+            <Dropdown timers={timers} timerT={timerT} />
             <div style={{ textAlign: "center",}}>
                 <div style={{ margin: "0 0 10px",display: "flex", justifyContent: "center", alignItems: "center",}}>
                     <div style={{ width: "135px", textAlign: "right"}}>Set workout time:</div>
@@ -94,7 +94,7 @@ const CreateTimerView = () => {
                         label: "S"
                     })}
                 </div>
-                {(timerType === "Tabata") && 
+                {(timerT === "Tabata") && 
                     <div style={{ margin: "0 0 10px",display: "flex", justifyContent: "center", alignItems: "center",}}>
                         <div style={{ width: "135px", textAlign: "right"}}>Set rest time:</div>
                         {makeInput({
@@ -114,7 +114,7 @@ const CreateTimerView = () => {
                         })}
                     </div>
                 }
-                {(timerType === "XY" || timerType === "Tabata") && 
+                {(timerT === "XY" || timerT === "Tabata") && 
                     <div style={{ margin: "0 0 10px",}}>Set number of rounds: 
                         {makeInput({
                             state: inputRounds,
@@ -124,8 +124,8 @@ const CreateTimerView = () => {
                     </div>
                 }
                 <button onClick={() => {
-                    createTimer({ timerType, inputHours, inputMinutes, inputSeconds, input2Hours, input2Minutes, input2Seconds, inputRounds });
-                    setTimerType(defaultTimer);
+                    createTimer({ timerT, inputHours, inputMinutes, inputSeconds, input2Hours, input2Minutes, input2Seconds, inputRounds });
+                    setTimerT(defaultTimer);
                     setInputHours(0);
                     setInputMinutes(0);
                     setInputSeconds(0);
@@ -133,7 +133,7 @@ const CreateTimerView = () => {
                     setInput2Minutes(0);
                     setInput2Seconds(0);
                     setInputRounds(1);
-                    setConfirmationMessage(`${timerType} added to queue`);
+                    setConfirmationMessage(`${timerT} added to queue`);
                     }}
                 >Add to queue</button>
             </div>

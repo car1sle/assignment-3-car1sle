@@ -5,7 +5,7 @@ import Counter from '../generic/Counter';
 
 const Stopwatch = ({ props }) => {
 
-    const { index, workoutRoundDuration, progress, status } = props;
+    const { index, workoutRoundDur, progress, status } = props;
     const { timers, removeTimer, setIsComplete } = useContext(AppContext);
 
     // I tried moving this to hooks.js to dry it up, but gave an error
@@ -25,7 +25,7 @@ const Stopwatch = ({ props }) => {
     }
 
     return (
-        <Counter label="Workout time" duration={translateFromSeconds(workoutRoundDuration)} progress={progressVal} removeClick={() => removeTimer(index)} />
+        <Counter label="Workout time" duration={translateFromSeconds(workoutRoundDur)} progress={progressVal} removeClick={() => removeTimer(index)} />
     );
 
 };

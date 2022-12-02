@@ -6,11 +6,29 @@ import { useParams, useNavigate } from 'react-router-dom';
 export const AppContext = React.createContext({});
 
 export const AppProvider = ({ children }) => {
+
+    function isJson(item) {
+      item = typeof item !== "string"
+          ? JSON.stringify(item)
+          : item;
+
+      try {
+          item = JSON.parse(item);
+      } catch (e) {
+          return false;
+      }
+
+      if (typeof item === "object" && item !== null) {
+          return true;
+      }
+
+      return false;
+    }
   
     const short = require('short-uuid');
     const navigate = useNavigate();
     const { path } = useParams();
-    const timersFromUrl = path ? JSON.parse(path) : [];
+    const timersFromUrl = (path && isJson(path)) ? JSON.parse(path) : [];
 
     const [timers, setTimers] = usePersistedState('timers', timersFromUrl);
     const [paused, setPaused] = usePersistedState('paused', true);
@@ -19,10 +37,11 @@ export const AppProvider = ({ children }) => {
     const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
+    console.log(path);
 
     useEffect(() => {
 
-      if (path && encodeURI(JSON.stringify(timers)) !== encodeURI(path)) {
+      if (path && isJson(path) && encodeURI(JSON.stringify(timers)) !== encodeURI(path)) {
         setTimers(timersFromUrl);
       }
 
@@ -32,7 +51,7 @@ export const AppProvider = ({ children }) => {
     useInterval(() => {
       if (paused || activeIndex >= timers.length) return;
 
-      if (currentTime === timers[activeIndex].roundDuration) {
+      if (currentTime === timers[activeIndex].roundDur) {
         setCurrentTime(0);
         setCurrentRound(r => {
           let newRound = r + 1;
@@ -82,18 +101,18 @@ export const AppProvider = ({ children }) => {
           setOnlyEnableStart,
           reset: reset,
           fastForward: fastForward,
-          createTimer: ({ timerType, inputHours, inputMinutes, inputSeconds, input2Hours, input2Minutes, input2Seconds, inputRounds = 1 }) => {
+          createTimer: ({ timerT, inputHours, inputMinutes, inputSeconds, input2Hours, input2Minutes, input2Seconds, inputRounds = 1 }) => {
             const id = short.generate();
             setTimers([...timers, { 
               id, 
-              timerType, 
+              timerT, 
               inputRounds, 
-              workoutRoundDuration: translateToSeconds(inputHours, inputMinutes, inputSeconds), 
-              restRoundDuration: translateToSeconds(input2Hours, input2Minutes, input2Seconds), 
-              roundDuration: translateToSeconds(inputHours, inputMinutes, inputSeconds) + translateToSeconds(input2Hours, input2Minutes, input2Seconds),
-              totalWorkoutDuration: (translateToSeconds(inputHours, inputMinutes, inputSeconds) * inputRounds),
-              totalRestDuration: (translateToSeconds(input2Hours, input2Minutes, input2Seconds) * inputRounds),
-              totalDuration: ((translateToSeconds(inputHours, inputMinutes, inputSeconds) * inputRounds) + (translateToSeconds(input2Hours, input2Minutes, input2Seconds) * inputRounds)),
+              workoutRoundDur: translateToSeconds(inputHours, inputMinutes, inputSeconds), 
+              restRoundDur: translateToSeconds(input2Hours, input2Minutes, input2Seconds), 
+              roundDur: translateToSeconds(inputHours, inputMinutes, inputSeconds) + translateToSeconds(input2Hours, input2Minutes, input2Seconds),
+              totalWorkoutDur: (translateToSeconds(inputHours, inputMinutes, inputSeconds) * inputRounds),
+              totalRestDur: (translateToSeconds(input2Hours, input2Minutes, input2Seconds) * inputRounds),
+              totalDur: ((translateToSeconds(inputHours, inputMinutes, inputSeconds) * inputRounds) + (translateToSeconds(input2Hours, input2Minutes, input2Seconds) * inputRounds)),
             }]);
             currentTime === 0 && setOnlyEnableStart(true);
             reset();
