@@ -37,7 +37,7 @@ export const AppProvider = ({ children }) => {
     const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
-    console.log(path);
+    // console.log(path);
 
     useEffect(() => {
 
@@ -65,7 +65,7 @@ export const AppProvider = ({ children }) => {
         setCurrentTime(c => c + 1);
       }
 
-    }, 1000);
+    }, 925);
 
     const reset = () => {
       setActiveIndex(0);
@@ -110,8 +110,8 @@ export const AppProvider = ({ children }) => {
               workoutRoundDur: translateToSeconds(inputHours, inputMinutes, inputSeconds), 
               restRoundDur: translateToSeconds(input2Hours, input2Minutes, input2Seconds), 
               roundDur: translateToSeconds(inputHours, inputMinutes, inputSeconds) + translateToSeconds(input2Hours, input2Minutes, input2Seconds),
-              totalWorkoutDur: (translateToSeconds(inputHours, inputMinutes, inputSeconds) * inputRounds),
-              totalRestDur: (translateToSeconds(input2Hours, input2Minutes, input2Seconds) * inputRounds),
+              // totalWorkoutDur: (translateToSeconds(inputHours, inputMinutes, inputSeconds) * inputRounds),
+              // totalRestDur: (translateToSeconds(input2Hours, input2Minutes, input2Seconds) * inputRounds),
               totalDur: ((translateToSeconds(inputHours, inputMinutes, inputSeconds) * inputRounds) + (translateToSeconds(input2Hours, input2Minutes, input2Seconds) * inputRounds)),
             }]);
             currentTime === 0 && setOnlyEnableStart(true);

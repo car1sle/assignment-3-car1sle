@@ -38,17 +38,17 @@ const StyledButton = styled.button`
   cursor: ${props => {if (!props.disabled) return 'pointer';}};
   opacity: ${props => {if (props.disabled) return '0.4';}};
   background-color: ${props => {
-    if (props.type === 'Start') return props.theme.start.bgColor;
-    else if (props.type === 'Pause') return props.theme.pause.bgColor;
-    else if (props.type === 'Resume') return props.theme.resume.bgColor;
-    else if (props.type === 'Fast Forward') return props.theme.fastForward.bgColor;
+    if (props.value === 'Start') return props.theme.start.bgColor;
+    else if (props.value === 'Pause') return props.theme.pause.bgColor;
+    else if (props.value === 'Resume') return props.theme.resume.bgColor;
+    else if (props.value === 'Fast Forward') return props.theme.fastForward.bgColor;
     else return props.theme.reset.bgColor;
   }};
   color: ${props => {
-    if (props.type === 'Start') return props.theme.start.color;
-    else if (props.type === 'Pause') return props.theme.pause.color;
-    else if (props.type === 'Resume') return props.theme.resume.color;
-    else if (props.type === 'Fast Forward') return props.theme.fastForward.color;
+    if (props.value === 'Start') return props.theme.start.color;
+    else if (props.value === 'Pause') return props.theme.pause.color;
+    else if (props.value === 'Resume') return props.theme.resume.color;
+    else if (props.value === 'Fast Forward') return props.theme.fastForward.color;
     else return props.theme.reset.color;
   }};
   transition: 0.075s;
@@ -61,7 +61,7 @@ export const Button = ({ value, disabledValue, onClick }) => {
 
     return (
       <ThemeProvider theme={theme}>
-        <StyledButton disabled={disabledValue} onClick={e => onClick(value)} type={value}>
+        <StyledButton disabled={disabledValue} onClick={e => onClick(value)} value={value}>
           {value}
         </StyledButton>
       </ThemeProvider>

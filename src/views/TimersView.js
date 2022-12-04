@@ -26,9 +26,16 @@ const TimerTitle = styled.div`
   font-size: 15px;
   font-style: italic;
   text-align: left;
-  background-color: #2e2e2e;
-  padding: 7px;
   color: #ffffff;
+  letter-spacing: 0.2px;
+`;
+
+const TimerDur = styled.div`
+  font-size: 15px;
+  font-style: italic;
+  text-align: right;
+  color: #ffffff;
+  letter-spacing: 0.2px;
 `;
 
 const TimersView = () => {
@@ -46,22 +53,32 @@ const TimersView = () => {
     };
   };
 
-  const totalQueueDur = translateFromSeconds(timers.reduce((total, obj) => obj.totalDur + total,0));
+  const totalQueueDur = timers.reduce((total, obj) => obj.totalDur + total,0);
+
+  // const currentTimers = timers;
+  // const completedTimers = timers.filter(timer => timer.index < activeIndex);
+  // console.log(timers[activeIndex].index);
+
+  const totalRemaining = totalQueueDur - currentTime;
 
   return (
     <Timers>
-      <div style={{ fontSize: "18px",padding: "0 0 10px",}}>Total workout time: <b>{totalQueueDur}</b></div>
+      <div style={{ fontSize: "18px", padding: "0 0 10px",}}>Total workout time: <b>{translateFromSeconds(totalQueueDur)}</b></div>
+      <div style={{ fontSize: "18px", padding: "0 0 10px",}}>Remaining time: <b>{translateFromSeconds(totalRemaining)}</b></div>
       {timers && timers.map((timer, index) => (
         <Timer key={timer.id}>
-          <TimerTitle>{timer.timerT}</TimerTitle>
-          <div style={{ width: "430px", padding: "15px 0 15px 25px",}}>
+          <div style={{ display: "flex", backgroundColor: "#2e2e2e", padding:"7px", justifyContent: "space-between",}}>
+            <TimerTitle>{timer.timerT}</TimerTitle>
+            {(timer.timerT === 'XY' || timer.timerT === 'Tabata') && <TimerDur>Total time of all rounds: <b>{translateFromSeconds(timer.totalDur)}</b></TimerDur>}
+          </div>
+          <div style={{ width: "475px", padding: "15px 0 15px 20px",}}>
             <InnerTimer type={timer.timerT} props={{
               index: index,
               workoutRoundDur: timer.workoutRoundDur,
               restRoundDur: timer.restRoundDur,
               roundDur: timer.roundDur,
-              totalWorkoutDur: timer.totalWorkoutDur,
-              totalRestDur: timer.totalRestDur,
+              // totalWorkoutDur: timer.totalWorkoutDur,
+              // totalRestDur: timer.totalRestDur,
               totalDur: timer.totalWorkoutDur,
               rounds: timer.inputRounds,
               progress: currentTime,
