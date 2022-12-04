@@ -34,6 +34,7 @@ export const AppProvider = ({ children }) => {
     const [paused, setPaused] = usePersistedState('paused', true);
     const [activeIndex, setActiveIndex] = usePersistedState('activeIndex', 0);
     const [currentTime, setCurrentTime] = usePersistedState('currentTime', 0);
+    const [passedTime, setPassedTime] = usePersistedState('passedTime', 0);
     const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
@@ -63,6 +64,7 @@ export const AppProvider = ({ children }) => {
         });
       } else {
         setCurrentTime(c => c + 1);
+        setPassedTime(c => c + 1);
       }
 
     }, 925);
@@ -74,13 +76,27 @@ export const AppProvider = ({ children }) => {
       setIsComplete(false);
       setCurrentRound(1);
       setOnlyEnableStart(true);
+      setPassedTime(0);
     };
+
+    const totalQueueDuration = timers.reduce((accumulator, object) => {
+      return accumulator + object.totalDur;
+    }, 0);
 
     const fastForward = () => {
       setActiveIndex(activeIndex + 1);
       setCurrentTime(0);
       setCurrentRound(timers[activeIndex].inputRounds);
       setOnlyEnableStart(false);
+      if (activeIndex + 1 === timers.length) {
+        setPassedTime(totalQueueDuration);
+      } else if (currentRound === 1) {
+        setPassedTime(passedTime + (timers[activeIndex].totalDur - currentTime));
+      } else {
+        const timeOfCompletedRounds = (currentRound - 1) * timers[activeIndex].roundDur;
+        const passedTimeForThisTimer = timeOfCompletedRounds + currentTime;
+        setPassedTime(passedTime + (timers[activeIndex].totalDur - passedTimeForThisTimer));
+      }
     };
 
     return (
@@ -89,6 +105,7 @@ export const AppProvider = ({ children }) => {
           timers,
           setTimers,
           currentTime,
+          passedTime,
           currentRound,
           setCurrentTime,
           activeIndex,

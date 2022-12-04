@@ -35,7 +35,7 @@ const CreateTimerView = () => {
         if (confirmationMessage) {
             setTimeout(() => {
                 setConfirmationMessage('');
-            }, "1500")
+            }, "1000")
         }
     }, [confirmationMessage]);
 

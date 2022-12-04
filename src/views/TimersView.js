@@ -39,7 +39,7 @@ const TimerDur = styled.div`
 `;
 
 const TimersView = () => {
-  const { timers, currentTime, activeIndex } = useContext(AppContext);
+  const { timers, currentTime, activeIndex, passedTime } = useContext(AppContext);
 
   const InnerTimer = ({type, props}) => {
     if (type === 'Stopwatch') {
@@ -54,12 +54,7 @@ const TimersView = () => {
   };
 
   const totalQueueDur = timers.reduce((total, obj) => obj.totalDur + total,0);
-
-  // const currentTimers = timers;
-  // const completedTimers = timers.filter(timer => timer.index < activeIndex);
-  // console.log(timers[activeIndex].index);
-
-  const totalRemaining = totalQueueDur - currentTime;
+  const totalRemaining = totalQueueDur - passedTime;
 
   return (
     <Timers>
