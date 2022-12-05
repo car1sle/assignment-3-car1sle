@@ -37,9 +37,11 @@ export const AppProvider = ({ children }) => {
     const [passedTime, setPassedTime] = usePersistedState('passedTime', 0);
     const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
+    const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
-    console.log(timers);
-    console.log(path);
+    // console.log(timers);
+    // console.log(path);
+    console.log(completedWorkouts);
 
     useEffect(() => {
 
@@ -50,7 +52,17 @@ export const AppProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timers, timersFromUrl]);
 
+    useEffect(() => {
+      if ((activeIndex === timers.length) && isComplete) {
+        setCompletedWorkouts([
+          ...completedWorkouts,
+          ...timers,
+        ]);
+      };
+    }, [activeIndex])
+
     useInterval(() => {
+      
       if (paused || activeIndex >= timers.length) return;
 
       if (currentTime === timers[activeIndex].roundDur) {
@@ -104,6 +116,7 @@ export const AppProvider = ({ children }) => {
       <AppContext.Provider
         value={{
           timers,
+          completedWorkouts,
           setTimers,
           currentTime,
           passedTime,

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TimersView from "./views/TimersView";
 import CreateTimerView from "./views/CreateTimerView";
 import ButtonsView from "./views/ButtonsView";
+import HistoryView from "./views/HistoryView";
 import { AppProvider, AppContext } from "./AppProvider";
 import { HashRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 
@@ -76,6 +77,7 @@ const TimersPageInner = () => {
           <button disabled={(timers.length === 0) ? false : !paused} style={{ margin: "0 5px", textAlign: "center", width: "90px",}}>Start over</button>
         </Link>
       </div>
+      <div style={{ textAlign: "center",}}><Link to="/history">See workout history</Link></div>
     </>
   );
 
@@ -129,6 +131,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/add" element={<CreateTimerPage />} />
         <Route path="/w/:path" element={<TimersPage />} />
+        <Route path="/history" element={<HistoryView />} />
         <Route path="*" element={<RedirectToHomePage />} />
       </Routes>
     </Router>
