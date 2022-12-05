@@ -57,7 +57,7 @@ export const AppProvider = ({ children }) => {
         setCurrentTime(0);
         setCurrentRound(r => {
           let newRound = r + 1;
-          if (newRound > timers[activeIndex].inputRounds) {
+          if (newRound > timers[activeIndex].rounds) {
             newRound = 1;
             setActiveIndex(activeIndex => activeIndex + 1);
           }
@@ -87,7 +87,7 @@ export const AppProvider = ({ children }) => {
     const fastForward = () => {
       setActiveIndex(activeIndex + 1);
       setCurrentTime(0);
-      setCurrentRound(timers[activeIndex].inputRounds);
+      setCurrentRound(timers[activeIndex].rounds);
       setOnlyEnableStart(false);
       if (activeIndex + 1 === timers.length) {
         setPassedTime(totalQueueDuration);
