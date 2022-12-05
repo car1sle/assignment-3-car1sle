@@ -38,7 +38,8 @@ export const AppProvider = ({ children }) => {
     const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
-    // console.log(path);
+    console.log(timers);
+    console.log(path);
 
     useEffect(() => {
 
@@ -118,14 +119,15 @@ export const AppProvider = ({ children }) => {
           setOnlyEnableStart,
           reset: reset,
           fastForward: fastForward,
-          createTimer: ({ timerT, inputHours, inputMinutes, inputSeconds, input2Hours, input2Minutes, input2Seconds, inputRounds = 1 }) => {
-            const id = short.generate();
+          createTimer: ({ timerT, desc, inputHours, inputMinutes, inputSeconds, input2Hours, input2Minutes, input2Seconds, inputRounds = 1 }) => {
+            const id = short.generate().slice(0,10);
             setTimers([...timers, { 
               id, 
               timerT, 
-              inputRounds, 
-              workoutRoundDur: translateToSeconds(inputHours, inputMinutes, inputSeconds), 
-              restRoundDur: translateToSeconds(input2Hours, input2Minutes, input2Seconds), 
+              desc,
+              rounds: inputRounds, 
+              wRoundDur: translateToSeconds(inputHours, inputMinutes, inputSeconds), 
+              rRoundDur: translateToSeconds(input2Hours, input2Minutes, input2Seconds), 
               roundDur: translateToSeconds(inputHours, inputMinutes, inputSeconds) + translateToSeconds(input2Hours, input2Minutes, input2Seconds),
               // totalWorkoutDur: (translateToSeconds(inputHours, inputMinutes, inputSeconds) * inputRounds),
               // totalRestDur: (translateToSeconds(input2Hours, input2Minutes, input2Seconds) * inputRounds),

@@ -16,12 +16,14 @@ const StyledLabel = styled.span`
   font-size: 15px;
 `;
 
-const Counter = ({ label, duration, label2, progress, removeClick }) => {
+const Counter = ({ label, duration, label2, progress, removeClick, desc }) => {
 
   const { timers, paused, reset } = useContext(AppContext);
   const navigate = useNavigate();
 
   return (
+      <>
+      {desc && <div style={{ margin: "10px 0 30px 0", }}><b>Description:</b> {desc}</div>}
       <div style={{ display: "flex", alignItems: "center", gap: "20px", padding: "0 0 20px",}}>
         {removeClick ? <div style={{ width: "30px",}}><img alt="Delete" src={trash} style={{ width: "17px", height: "20px", cursor: paused ? "pointer" : "not-allowed", opacity: paused ? 1 : 0.5,}} onClick={() => {
           if (paused) {
@@ -35,6 +37,7 @@ const Counter = ({ label, duration, label2, progress, removeClick }) => {
         <div style={{ width: "170px",}}><StyledLabel>{label}:</StyledLabel><br></br><StyledCounter>{duration}</StyledCounter></div>
         <div>{label2}:<br></br><StyledCounter>{progress}</StyledCounter></div>
       </div>
+      </>
   );
 };
   

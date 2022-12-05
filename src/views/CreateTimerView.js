@@ -23,6 +23,7 @@ const CreateTimerView = () => {
     const [input2Minutes, setInput2Minutes] = useState(0);
     const [input2Seconds, setInput2Seconds] = useState(0);
     const [inputRounds, setInputRounds] = useState(1);
+    const [desc, setDesc] = useState('');
     const [confirmationMessage, setConfirmationMessage] = useState('');
 
     useEffect(() => {
@@ -123,9 +124,11 @@ const CreateTimerView = () => {
                         })}
                     </div>
                 }
+                <div style={{ margin: "0 0 20px",}}>Set description:<input style={{ margin: "0 0 0 15px", height: "30px",}} type="text" maxLength="75" size="40" placeholder="e.g. 20 crunches and 10 burpees&hellip;" value={desc} onChange={e => {setDesc(e.target.value);}} /></div>
                 <button onClick={() => {
-                    createTimer({ timerT, inputHours, inputMinutes, inputSeconds, input2Hours, input2Minutes, input2Seconds, inputRounds });
+                    createTimer({ timerT, desc, inputHours, inputMinutes, inputSeconds, input2Hours, input2Minutes, input2Seconds, inputRounds});
                     setTimerT(defaultTimer);
+                    setDesc('');
                     setInputHours(0);
                     setInputMinutes(0);
                     setInputSeconds(0);

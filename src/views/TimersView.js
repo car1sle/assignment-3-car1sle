@@ -69,13 +69,14 @@ const TimersView = () => {
           <div style={{ width: "475px", padding: "15px 0 15px 20px",}}>
             <InnerTimer type={timer.timerT} props={{
               index: index,
-              workoutRoundDur: timer.workoutRoundDur,
-              restRoundDur: timer.restRoundDur,
+              desc: timer.desc,
+              workoutRoundDur: timer.wRoundDur,
+              restRoundDur: timer.rRoundDur,
               roundDur: timer.roundDur,
               // totalWorkoutDur: timer.totalWorkoutDur,
               // totalRestDur: timer.totalRestDur,
               totalDur: timer.totalWorkoutDur,
-              rounds: timer.inputRounds,
+              rounds: timer.rounds,
               progress: currentTime,
               status: index === activeIndex ? 'Current' : index > activeIndex ? 'Upcoming' : 'Complete',
             }} />
