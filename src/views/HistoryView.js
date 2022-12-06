@@ -5,7 +5,7 @@ import TopNav from "../components/generic/TopNav";
 
 const HistoryViewInner = () => {
 
-    const { timers, completedWorkouts } = useContext(AppContext);
+    const { timers } = useContext(AppContext);
 
     const Arrow = () => {
         return <>&#8678;</>

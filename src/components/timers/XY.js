@@ -6,7 +6,7 @@ import Counter from '../generic/Counter';
 const XY = ({ props }) => {
 
     const { index, workoutRoundDur, progress, status, rounds, desc } = props;
-    const { timers, removeTimer, setIsComplete, currentRound } = useContext(AppContext);
+    const { timers, removeTimer, setIsComplete, currentRound, swapOrder } = useContext(AppContext);
 
     // I tried moving this to hooks.js to dry it up, but gave an error
     useEffect(() => {
@@ -33,7 +33,7 @@ const XY = ({ props }) => {
 
     return (
         <>
-            <Counter label="Total time per round" duration={translateFromSeconds(workoutRoundDur)} label2="Your progress this round" progress={progressVal} removeClick={() => removeTimer(index)} desc={desc} />
+            <Counter label="Total time per round" duration={translateFromSeconds(workoutRoundDur)} label2="Your progress this round" progress={progressVal} removeClick={() => removeTimer(index)} desc={desc} moveUp={() => swapOrder(timers, index, index - 1)} moveDown={() => swapOrder(timers, index, index + 1)} index={index} />
             <div style={{ textAlign: "center", padding: "5px 0 0",}}>Round: <b>{currentRoundVal}</b> of {rounds}</div>
         </>
 

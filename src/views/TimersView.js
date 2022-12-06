@@ -66,7 +66,7 @@ const TimersView = () => {
             <TimerTitle>{timer.timerT}</TimerTitle>
             {(timer.timerT === 'XY' || timer.timerT === 'Tabata') && <TimerDur>Total time of all rounds: <b>{translateFromSeconds(timer.totalDur)}</b></TimerDur>}
           </div>
-          <div style={{ width: "475px", padding: "15px 0 15px 20px",}}>
+          <div style={{ width: "510px", padding: "15px 0 15px 20px",}}>
             <InnerTimer type={timer.timerT} props={{
               index: index,
               desc: timer.desc,

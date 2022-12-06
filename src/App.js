@@ -43,7 +43,6 @@ const HomePageInner = () => {
 
   return (
     <>
-      <TopNav />
       <div style={{ margin: "50px auto", textAlign: "center",}}>
         <div style={{ margin: "0 0 30px",}}>You have no timers in the queue.</div>
         <Link to="/add">
@@ -58,6 +57,7 @@ const HomePageInner = () => {
 const HomePage = () => {
   return (
     <Container>
+      <TopNav />
       <AppProvider>
         <HomePageInner />
       </AppProvider>
@@ -71,7 +71,6 @@ const TimersPageInner = () => {
 
   return (
     <>
-      <TopNav />
       <ButtonsView />
       <TimersView />
       <div style={{ display: "flex", margin: "0 auto 50px", justifyContent: "center",}}>
@@ -87,6 +86,7 @@ const TimersPageInner = () => {
 const TimersPage = () => {
   return (
     <Container>
+      <TopNav />
       <AppProvider>
         <TimersPageInner />
       </AppProvider>
@@ -104,7 +104,6 @@ const CreateTimerPageInner = () => {
 
   return (
     <>
-      <TopNav />
       {timers.length > 0 &&
         <div style={{ margin: "0 auto", textAlign: "center",}}>
           <Link style={{ color:"#305bbf",}} to={`/w/${encodeURI(encodeURI(JSON.stringify(timers)))}`}>
@@ -121,6 +120,7 @@ const CreateTimerPageInner = () => {
 const CreateTimerPage = () => {
   return (
     <Container>
+      <TopNav />
       <AppProvider>
         <CreateTimerPageInner />
       </AppProvider>

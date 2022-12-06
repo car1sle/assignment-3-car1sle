@@ -37,11 +37,12 @@ export const AppProvider = ({ children }) => {
     const [passedTime, setPassedTime] = usePersistedState('passedTime', 0);
     const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
-    const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
+    // const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
     console.log(timers);
-    // console.log(path);
+    console.log(path);
     // console.log(completedWorkouts);
+    // console.log(isComplete);
 
     useEffect(() => {
 
@@ -51,15 +52,6 @@ export const AppProvider = ({ children }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timers, timersFromUrl]);
-
-    // useEffect(() => {
-    //   if ((activeIndex === timers.length) && isComplete) {
-    //     setCompletedWorkouts([
-    //       ...completedWorkouts,
-    //       ...timers,
-    //     ]);
-    //   };
-    // }, [activeIndex])
 
     useInterval(() => {
       
@@ -116,7 +108,7 @@ export const AppProvider = ({ children }) => {
       <AppContext.Provider
         value={{
           timers,
-          completedWorkouts,
+          // completedWorkouts,
           setTimers,
           currentTime,
           passedTime,
@@ -153,6 +145,13 @@ export const AppProvider = ({ children }) => {
             const tempTimers = timers.filter((t, i) => i !== index);
             setTimers(tempTimers);
             navigate(`/w/${encodeURI(encodeURI(JSON.stringify(tempTimers)))}`);
+          },
+          swapOrder: (arr, i1, i2) => {
+            let temp = arr[i1];
+            arr[i1] = arr[i2];
+            arr[i2] = temp;
+            setTimers(arr);
+            navigate(`/w/${encodeURI(encodeURI(JSON.stringify(arr)))}`);
           }
         }}
       >
