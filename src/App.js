@@ -4,6 +4,7 @@ import TimersView from "./views/TimersView";
 import CreateTimerView from "./views/CreateTimerView";
 import ButtonsView from "./views/ButtonsView";
 import HistoryView from "./views/HistoryView";
+import TopNav from "./components/generic/TopNav";
 import { AppProvider, AppContext } from "./AppProvider";
 import { HashRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 
@@ -41,12 +42,15 @@ const HomePageInner = () => {
   }, []);
 
   return (
-    <div style={{ margin: "50px auto", textAlign: "center",}}>
-      <div style={{ margin: "0 0 30px",}}>You have no timers in the queue.</div>
-      <Link to="/add">
-        <button style={{ margin: "0 auto", textAlign: "center",}}>Build your workout</button>
-      </Link>
-    </div>
+    <>
+      <TopNav />
+      <div style={{ margin: "50px auto", textAlign: "center",}}>
+        <div style={{ margin: "0 0 30px",}}>You have no timers in the queue.</div>
+        <Link to="/add">
+          <button style={{ margin: "0 auto", textAlign: "center",}}>Build your workout</button>
+        </Link>
+      </div>
+    </>
   );
 
 };
@@ -67,17 +71,14 @@ const TimersPageInner = () => {
 
   return (
     <>
+      <TopNav />
       <ButtonsView />
       <TimersView />
       <div style={{ display: "flex", margin: "0 auto 50px", justifyContent: "center",}}>
         <Link to="/add">
           <button disabled={(timers.length === 0) ? false : !paused} style={{ margin: "0 5px", textAlign: "center", width: "90px",}}>Add a timer</button>
         </Link>
-        <Link to="/">
-          <button disabled={(timers.length === 0) ? false : !paused} style={{ margin: "0 5px", textAlign: "center", width: "90px",}}>Start over</button>
-        </Link>
       </div>
-      <div style={{ textAlign: "center",}}><Link to="/history">See workout history</Link></div>
     </>
   );
 
@@ -98,16 +99,19 @@ const CreateTimerPageInner = () => {
   const { timers } = useContext(AppContext);
 
   const Arrow = () => {
-    return <>&#8678;</>
+    return <>&#8680;</>
   };
 
   return (
     <>
-      <div style={{ margin: "0 auto", textAlign: "center",}}>
-        <Link to={`/w/${encodeURI(encodeURI(JSON.stringify(timers)))}`}>
-          <div style={{ margin: "15px auto", textAlign: "center", textDecoration: "underline", color: "#305bbf",}}><Arrow /> Go back to workout</div>
-        </Link>
-      </div>
+      <TopNav />
+      {timers.length > 0 &&
+        <div style={{ margin: "0 auto", textAlign: "center",}}>
+          <Link style={{ color:"#305bbf",}} to={`/w/${encodeURI(encodeURI(JSON.stringify(timers)))}`}>
+            <div style={{ margin: "15px auto", textAlign: "center", textDecoration: "underline", fontWeight: "700", fontSize: "18px",}}>Go to your workout&nbsp;&nbsp;<Arrow /></div>
+          </Link>
+        </div>
+      }
       <CreateTimerView />
     </>
   );

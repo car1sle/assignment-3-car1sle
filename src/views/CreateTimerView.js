@@ -32,14 +32,6 @@ const CreateTimerView = () => {
         }
     }, [timerT]);
 
-    useEffect(() => {
-        if (confirmationMessage) {
-            setTimeout(() => {
-                setConfirmationMessage('');
-            }, "1000")
-        }
-    }, [confirmationMessage]);
-
     const timers = [
         { timerT: "Stopwatch" },
         { timerT: "Countdown" },
@@ -68,7 +60,7 @@ const CreateTimerView = () => {
         return (
             <>
                 <Dropdown timers={timers} timerT={timerT} />
-                {confirmationMessage && <div style={{ textAlign: "center", fontStyle: "italic", color: "green",}}>{confirmationMessage}</div>}
+                {confirmationMessage && <div style={{ textAlign: "center", fontStyle: "italic", color: "green", fontSize: "14px"}}>{confirmationMessage}</div>}
             </>
         )
     }

@@ -39,9 +39,9 @@ export const AppProvider = ({ children }) => {
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
     const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
-    // console.log(timers);
+    console.log(timers);
     // console.log(path);
-    console.log(completedWorkouts);
+    // console.log(completedWorkouts);
 
     useEffect(() => {
 
@@ -52,14 +52,14 @@ export const AppProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timers, timersFromUrl]);
 
-    useEffect(() => {
-      if ((activeIndex === timers.length) && isComplete) {
-        setCompletedWorkouts([
-          ...completedWorkouts,
-          ...timers,
-        ]);
-      };
-    }, [activeIndex])
+    // useEffect(() => {
+    //   if ((activeIndex === timers.length) && isComplete) {
+    //     setCompletedWorkouts([
+    //       ...completedWorkouts,
+    //       ...timers,
+    //     ]);
+    //   };
+    // }, [activeIndex])
 
     useInterval(() => {
       
