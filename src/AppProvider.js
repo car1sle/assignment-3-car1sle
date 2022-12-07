@@ -109,6 +109,7 @@ export const AppProvider = ({ children }) => {
         value={{
           timers,
           // completedWorkouts,
+          totalQueueDuration,
           setTimers,
           currentTime,
           passedTime,
