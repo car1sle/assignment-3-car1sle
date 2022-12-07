@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useInterval, usePersistedState } from "./utils/hooks";
 import { translateToSeconds } from "./utils/helpers";
 import { useParams, useNavigate } from 'react-router-dom';
@@ -39,8 +39,9 @@ export const AppProvider = ({ children }) => {
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
     // const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
-    console.log(timers);
-    console.log(path);
+    const [editMode, setEditMode] = useState(false);
+    // console.log(timers);
+    // console.log(path);
     // console.log(completedWorkouts);
     // console.log(isComplete);
 
@@ -110,6 +111,8 @@ export const AppProvider = ({ children }) => {
           timers,
           // completedWorkouts,
           setTimers,
+          editMode,
+          setEditMode,
           currentTime,
           passedTime,
           currentRound,

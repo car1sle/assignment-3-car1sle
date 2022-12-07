@@ -4,7 +4,7 @@ import { Button } from '../components/generic/Button';
 
 const ButtonsView = () => {
 
-    const { timers, currentTime, activeIndex, paused, setPaused, reset, fastForward, isComplete, onlyEnableStart, setOnlyEnableStart } = useContext(AppContext);
+    const { timers, currentTime, activeIndex, paused, setPaused, reset, fastForward, isComplete, onlyEnableStart, setOnlyEnableStart, editMode } = useContext(AppContext);
 
     const handleClick = value => {
 
@@ -19,7 +19,7 @@ const ButtonsView = () => {
     };
 
     const makeButton = ({value, disabledValue}) => {
-        return <Button value={value} disabledValue={(timers.length > 0) ? disabledValue : true} onClick={handleClick} />
+        return <Button value={value} disabledValue={(timers.length > 0 && !editMode) ? disabledValue : true} onClick={handleClick} />
     };
 
     if (timers.length === 0) {return};
