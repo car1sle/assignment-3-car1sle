@@ -36,8 +36,7 @@ const XY = ({ props }) => {
 
     return (
         <>
-            <Counter label="Workout time per round" duration={translateFromSeconds(workoutRoundDur)} label2="Your progress this round" progress={progressVal} removeClick={() => removeTimer(index)} desc={desc} moveUp={() => swapOrder(timers, index, index - 1)} moveDown={() => swapOrder(timers, index, index + 1)} index={index} />
-            <Counter label="Rest time per round" duration={translateFromSeconds(restRoundDur)} label2="Your progress this round" progress={progressVal2} />
+            <Counter label="Workout time per round" duration={translateFromSeconds(workoutRoundDur)} label2="Your progress this round" progress={progressVal} removeClick={() => removeTimer(index)} desc={desc} moveUp={() => swapOrder(timers, index, index - 1)} moveDown={() => swapOrder(timers, index, index + 1)} index={index} label_2="Rest time per round" duration_2={translateFromSeconds(restRoundDur)} label2_2="Your progress this round" progress_2={progressVal2} />
             <div style={{ textAlign: "center", padding: "5px 0 0",}}>Round: <b>{currentRoundVal}</b> of {rounds}</div>
         </>
 

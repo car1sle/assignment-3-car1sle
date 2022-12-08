@@ -28,18 +28,15 @@ const StyledEditButton = styled.button`
   font-size: 14px;
 `;
 
-const Counter = ({ label, duration, label2, progress, removeClick, desc, moveUp, moveDown, index }) => {
+const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progress, progress_2, removeClick, desc, moveUp, moveDown, index }) => {
 
   const { timers, paused, reset, setEditMode, editMode, timerToEdit, setTimerToEdit, showTempWorkoutDuration, setShowTempWorkoutDuration, tempWorkoutDuration, setTempWorkoutDuration, updateTimer } = useContext(AppContext);
   const navigate = useNavigate();
 
-  // console.log("index: " + index);
-  // console.log("tempWorkoutDuration: " + tempWorkoutDuration);
-  // console.log("timerToEdit: " + timerToEdit);
+  const InnerCounter = ({ label, duration, label2, progress, removeClick, moveUp, moveDown, index }) => {
 
-  return (
-      <>
-      {desc && <div style={{ margin: "10px 0 30px 0", }}><b>Description:</b> {desc}</div>}
+    return (
+
       <div style={{ display: "flex", alignItems: "center", gap: "20px", padding: "0 0 20px",}}>
         <div style={{ display:"flex", flexDirection:"column",width: "30px", justifyContent: "space-between", height:"55px",}}>
           {removeClick && <img alt="Delete" src={trash} style={{ width: "20px", height: "22px", cursor: paused ? "pointer" : "not-allowed", opacity: paused ? 1 : 0.5,}} onClick={() => {
@@ -87,14 +84,24 @@ const Counter = ({ label, duration, label2, progress, removeClick, desc, moveUp,
           <span style={{cursor: (!editMode && paused && (index < timers.length - 1)) ? "pointer" : "not-allowed", opacity: (!editMode && paused && (index < timers.length - 1)) ? 1 : 0.5,}} onClick={() => {moveDown();}}>&#x25BC;</span>
         </div>}
       </div>
-      {(editMode && (index === timerToEdit)) && <div style={{display:"flex", gap: "5px", paddingLeft: "50px",}}>
-        <StyledEditButton value="Save" onClick={() => {updateTimer();}}>Save</StyledEditButton>
-        <StyledEditButton value="Discard" onClick={() => {
-          setEditMode(false);
-          setShowTempWorkoutDuration(false);
-          reset();
-        }}>Discard</StyledEditButton>
-      </div>}
+
+    );
+      
+  };
+
+  return (
+      <>
+        {desc && <div style={{ margin: "10px 0 30px 0", }}><b>Description:</b> {desc}</div>}
+        <InnerCounter label={label} duration={duration} label2={label2} progress={progress} removeClick={removeClick} moveUp={moveUp} moveDown={moveDown} index={index} />
+        {label_2 && <InnerCounter label={label_2} duration={duration_2} label2={label2_2} progress={progress_2} index={index} />}
+        {(editMode && (index === timerToEdit)) && <div style={{display:"flex", gap: "5px", paddingLeft: "50px",}}>
+          <StyledEditButton value="Save" onClick={() => {updateTimer();}}>Save</StyledEditButton>
+          <StyledEditButton value="Discard" onClick={() => {
+            setEditMode(false);
+            setShowTempWorkoutDuration(false);
+            reset();
+          }}>Discard</StyledEditButton>
+        </div>}
       </>
   );
 };
