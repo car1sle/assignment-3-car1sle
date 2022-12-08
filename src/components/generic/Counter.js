@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import trash from '../../images/trash.png';
 import pencil from '../../images/pencil.png'
 import { AppContext } from "../../AppProvider";
 import '../../index.css';
-import { translateFromSeconds } from "../../utils/helpers";
+import { translateFromSeconds, translateStringToSeconds } from "../../utils/helpers";
 
 const StyledCounter = styled.div`
   text-align: center;
@@ -30,15 +30,12 @@ const StyledEditButton = styled.button`
 
 const Counter = ({ label, duration, label2, progress, removeClick, desc, moveUp, moveDown, index }) => {
 
-  const { timers, paused, reset, setEditMode, editMode } = useContext(AppContext);
+  const { timers, paused, reset, setEditMode, editMode, timerToEdit, setTimerToEdit, showTempWorkoutDuration, setShowTempWorkoutDuration, tempWorkoutDuration, setTempWorkoutDuration, updateTimer } = useContext(AppContext);
   const navigate = useNavigate();
 
-  const [showTempDuration, setShowTempDuration] = useState(false);
-  const [timerToEdit, setTimerToEdit] = useState(0);
-  const [tempDuration, setTempDuration] = useState(timers[timerToEdit].wRoundDur);
-
-  console.log(tempDuration);
-  console.log(timerToEdit);
+  // console.log("index: " + index);
+  // console.log("tempWorkoutDuration: " + tempWorkoutDuration);
+  // console.log("timerToEdit: " + timerToEdit);
 
   return (
       <>
@@ -56,8 +53,9 @@ const Counter = ({ label, duration, label2, progress, removeClick, desc, moveUp,
           }} />}
           {removeClick && <img alt="Edit" src={pencil} style={{ width: "20px", height: "22px", cursor: (paused && !editMode) ? "pointer" : "not-allowed", opacity: (paused && !editMode) ? 1 : 0.5,}} onClick={() => {
             if (paused && !editMode) {
-              setEditMode(true);
               setTimerToEdit(index);
+              setEditMode(true);
+              setTempWorkoutDuration(translateStringToSeconds(duration));
             }
           }} />}
         </div>
@@ -65,15 +63,15 @@ const Counter = ({ label, duration, label2, progress, removeClick, desc, moveUp,
           <StyledLabel>{label}:</StyledLabel>
           <br></br>
           <div style={{display: "flex",}}>
-            <StyledCounter>{showTempDuration ? translateFromSeconds(tempDuration) : duration}</StyledCounter>
+            <StyledCounter>{((index === timerToEdit) && showTempWorkoutDuration) ? translateFromSeconds(tempWorkoutDuration) : duration}</StyledCounter>
             {(editMode && (index === timerToEdit)) && <div style={{display:"flex", flexDirection: "column", paddingLeft: "10px",}}>
               <span style={{fontSize: "12px",}} onClick={() => {
-                setTempDuration(c => c + 1);
-                setShowTempDuration(true);
+                setTempWorkoutDuration(c => c + 1);
+                setShowTempWorkoutDuration(true);
               }}>&#x25B2;</span>
               <span style={{fontSize: "12px",}} onClick={() => {
-                setTempDuration(c => c - 1);
-                setShowTempDuration(true);
+                setTempWorkoutDuration(c => c - 1);
+                setShowTempWorkoutDuration(true);
               }}>&#x25BC;</span>
             </div>}
           </div>
@@ -90,12 +88,11 @@ const Counter = ({ label, duration, label2, progress, removeClick, desc, moveUp,
         </div>}
       </div>
       {(editMode && (index === timerToEdit)) && <div style={{display:"flex", gap: "5px", paddingLeft: "50px",}}>
-        <StyledEditButton value="Save" onClick={() => {
-          // navigate(`/w/${encodeURI(encodeURI(JSON.stringify(timers)))}`);
-        }}>Save
-        </StyledEditButton>
+        <StyledEditButton value="Save" onClick={() => {updateTimer();}}>Save</StyledEditButton>
         <StyledEditButton value="Discard" onClick={() => {
           setEditMode(false);
+          setShowTempWorkoutDuration(false);
+          reset();
         }}>Discard</StyledEditButton>
       </div>}
       </>

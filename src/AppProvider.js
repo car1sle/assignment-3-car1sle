@@ -33,6 +33,7 @@ export const AppProvider = ({ children }) => {
     const [timers, setTimers] = usePersistedState('timers', timersFromUrl);
     const [paused, setPaused] = usePersistedState('paused', true);
     const [activeIndex, setActiveIndex] = usePersistedState('activeIndex', 0);
+    const [timerToEdit, setTimerToEdit] = usePersistedState('timerToEdit', 0);
     const [currentTime, setCurrentTime] = usePersistedState('currentTime', 0);
     const [passedTime, setPassedTime] = usePersistedState('passedTime', 0);
     const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
@@ -40,8 +41,10 @@ export const AppProvider = ({ children }) => {
     // const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
     const [editMode, setEditMode] = useState(false);
-    // console.log(timers);
-    // console.log(path);
+    const [showTempWorkoutDuration, setShowTempWorkoutDuration] = useState(false);
+    const [tempWorkoutDuration, setTempWorkoutDuration] = useState(0);
+    console.log(timers);
+    console.log(path);
     // console.log(completedWorkouts);
     // console.log(isComplete);
 
@@ -83,6 +86,7 @@ export const AppProvider = ({ children }) => {
       setCurrentRound(1);
       setOnlyEnableStart(true);
       setPassedTime(0);
+      setTempWorkoutDuration(0);
     };
 
     const totalQueueDuration = timers.reduce((accumulator, object) => {
@@ -113,12 +117,18 @@ export const AppProvider = ({ children }) => {
           setTimers,
           editMode,
           setEditMode,
+          tempWorkoutDuration,
+          setTempWorkoutDuration,
+          showTempWorkoutDuration,
+          setShowTempWorkoutDuration,
           currentTime,
           passedTime,
           currentRound,
           setCurrentTime,
           activeIndex,
           setActiveIndex,
+          timerToEdit,
+          setTimerToEdit,
           paused,
           setPaused,
           isComplete,
@@ -155,7 +165,23 @@ export const AppProvider = ({ children }) => {
             arr[i2] = temp;
             setTimers(arr);
             navigate(`/w/${encodeURI(encodeURI(JSON.stringify(arr)))}`);
-          }
+          },
+          updateTimer: () => {
+            const newTimers = timers.map((timer, index) => {
+              if (index === timerToEdit) {
+                return {...timer, 
+                wRoundDur: tempWorkoutDuration,
+                roundDur: tempWorkoutDuration + timer.rRoundDur,
+                totalDur: (tempWorkoutDuration * timer.rounds) + (timer.rRoundDur * timer.rounds),
+              };
+              }
+              return timer;
+            });
+            setTimers(newTimers);
+            setEditMode(false);
+            setShowTempWorkoutDuration(false);
+            navigate(`/w/${encodeURI(encodeURI(JSON.stringify(newTimers)))}`);
+          },
         }}
       >
         {children}
