@@ -38,13 +38,14 @@ export const AppProvider = ({ children }) => {
     const [passedTime, setPassedTime] = usePersistedState('passedTime', 0);
     const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
-    // const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
+    // const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
     const [editMode, setEditMode] = useState(false);
-    const [showTempWorkoutDuration, setShowTempWorkoutDuration] = useState(false);
+    const [showTempDuration, setShowTempDuration] = useState(false);
     const [tempWorkoutDuration, setTempWorkoutDuration] = useState(0);
-    console.log(timers);
-    console.log(path);
+    const [tempRestDuration, setTempRestDuration] = useState(0);
+    // console.log(timers);
+    // console.log(path);
     // console.log(completedWorkouts);
     // console.log(isComplete);
 
@@ -87,6 +88,7 @@ export const AppProvider = ({ children }) => {
       setOnlyEnableStart(true);
       setPassedTime(0);
       setTempWorkoutDuration(0);
+      setTempRestDuration(0);
     };
 
     const totalQueueDuration = timers.reduce((accumulator, object) => {
@@ -117,10 +119,12 @@ export const AppProvider = ({ children }) => {
           setTimers,
           editMode,
           setEditMode,
+          showTempDuration,
+          setShowTempDuration,
           tempWorkoutDuration,
           setTempWorkoutDuration,
-          showTempWorkoutDuration,
-          setShowTempWorkoutDuration,
+          tempRestDuration,
+          setTempRestDuration,
           currentTime,
           passedTime,
           currentRound,
@@ -171,15 +175,16 @@ export const AppProvider = ({ children }) => {
               if (index === timerToEdit) {
                 return {...timer, 
                 wRoundDur: tempWorkoutDuration,
-                roundDur: tempWorkoutDuration + timer.rRoundDur,
-                totalDur: (tempWorkoutDuration * timer.rounds) + (timer.rRoundDur * timer.rounds),
+                rRoundDur: tempRestDuration,
+                roundDur: tempWorkoutDuration + tempRestDuration,
+                totalDur: (tempWorkoutDuration * timer.rounds) + (tempRestDuration * timer.rounds),
               };
               }
               return timer;
             });
             setTimers(newTimers);
             setEditMode(false);
-            setShowTempWorkoutDuration(false);
+            setShowTempDuration(false);
             navigate(`/w/${encodeURI(encodeURI(JSON.stringify(newTimers)))}`);
           },
         }}

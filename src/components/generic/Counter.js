@@ -30,10 +30,15 @@ const StyledEditButton = styled.button`
 
 const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progress, progress_2, removeClick, desc, moveUp, moveDown, index }) => {
 
-  const { timers, paused, reset, setEditMode, editMode, timerToEdit, setTimerToEdit, showTempWorkoutDuration, setShowTempWorkoutDuration, tempWorkoutDuration, setTempWorkoutDuration, updateTimer } = useContext(AppContext);
+  const { timers, paused, reset, setEditMode, editMode, timerToEdit, setTimerToEdit, updateTimer, showTempDuration, setShowTempDuration, tempWorkoutDuration, setTempWorkoutDuration, tempRestDuration, setTempRestDuration } = useContext(AppContext);
   const navigate = useNavigate();
 
   const InnerCounter = ({ label, duration, label2, progress, removeClick, moveUp, moveDown, index }) => {
+
+    const restTimer = (label.indexOf("Rest") > -1) ? true : false;
+    console.log(timerToEdit);
+    console.log('tempWorkoutDuration:' + tempWorkoutDuration);
+    console.log('tempRestDuration:' + tempRestDuration);
 
     return (
 
@@ -52,7 +57,8 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
             if (paused && !editMode) {
               setTimerToEdit(index);
               setEditMode(true);
-              setTempWorkoutDuration(translateStringToSeconds(duration));
+              setTempWorkoutDuration(timers[index].wRoundDur);
+              setTempRestDuration(timers[index].rRoundDur);
             }
           }} />}
         </div>
@@ -60,15 +66,23 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
           <StyledLabel>{label}:</StyledLabel>
           <br></br>
           <div style={{display: "flex",}}>
-            <StyledCounter>{((index === timerToEdit) && showTempWorkoutDuration) ? translateFromSeconds(tempWorkoutDuration) : duration}</StyledCounter>
+            <StyledCounter>{((index === timerToEdit) && showTempDuration) ? restTimer ? translateFromSeconds(tempRestDuration) : translateFromSeconds(tempWorkoutDuration) : duration}</StyledCounter>
             {(editMode && (index === timerToEdit)) && <div style={{display:"flex", flexDirection: "column", paddingLeft: "10px",}}>
               <span style={{fontSize: "12px",}} onClick={() => {
-                setTempWorkoutDuration(c => c + 1);
-                setShowTempWorkoutDuration(true);
+                if (restTimer) {
+                  setTempRestDuration(c => c + 1);
+                } else {
+                  setTempWorkoutDuration(c => c + 1);
+                }
+                setShowTempDuration(true);
               }}>&#x25B2;</span>
               <span style={{fontSize: "12px",}} onClick={() => {
-                setTempWorkoutDuration(c => c - 1);
-                setShowTempWorkoutDuration(true);
+                if (restTimer) {
+                  setTempRestDuration(c => c - 1);
+                } else {
+                  setTempWorkoutDuration(c => c - 1);
+                }
+                setShowTempDuration(true);
               }}>&#x25BC;</span>
             </div>}
           </div>
@@ -98,7 +112,7 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
           <StyledEditButton value="Save" onClick={() => {updateTimer();}}>Save</StyledEditButton>
           <StyledEditButton value="Discard" onClick={() => {
             setEditMode(false);
-            setShowTempWorkoutDuration(false);
+            setShowTempDuration(false);
             reset();
           }}>Discard</StyledEditButton>
         </div>}
