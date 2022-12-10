@@ -5,7 +5,7 @@ import trash from '../../images/trash.png';
 import pencil from '../../images/pencil.png'
 import { AppContext } from "../../AppProvider";
 import '../../index.css';
-import { translateFromSeconds, translateStringToSeconds } from "../../utils/helpers";
+import { translateFromSeconds } from "../../utils/helpers";
 
 const StyledCounter = styled.div`
   text-align: center;
