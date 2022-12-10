@@ -28,17 +28,14 @@ const StyledEditButton = styled.button`
   font-size: 14px;
 `;
 
-const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progress, progress_2, removeClick, desc, moveUp, moveDown, index }) => {
+const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progress, progress_2, removeClick, desc, moveUp, moveDown, index, rounds, currentRoundVal }) => {
 
-  const { timers, paused, reset, setEditMode, editMode, timerToEdit, setTimerToEdit, updateTimer, showTempDuration, setShowTempDuration, tempWorkoutDuration, setTempWorkoutDuration, tempRestDuration, setTempRestDuration } = useContext(AppContext);
+  const { timers, paused, reset, setEditMode, editMode, timerToEdit, setTimerToEdit, updateTimer, showTempDuration, setShowTempDuration, tempWorkoutDuration, setTempWorkoutDuration, tempRestDuration, setTempRestDuration, tempRounds, setTempRounds } = useContext(AppContext);
   const navigate = useNavigate();
 
   const InnerCounter = ({ label, duration, label2, progress, removeClick, moveUp, moveDown, index }) => {
 
     const restTimer = (label.indexOf("Rest") > -1) ? true : false;
-    console.log(timerToEdit);
-    console.log('tempWorkoutDuration:' + tempWorkoutDuration);
-    console.log('tempRestDuration:' + tempRestDuration);
 
     return (
 
@@ -59,6 +56,7 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
               setEditMode(true);
               setTempWorkoutDuration(timers[index].wRoundDur);
               setTempRestDuration(timers[index].rRoundDur);
+              setTempRounds(timers[index].rounds);
             }
           }} />}
         </div>
@@ -68,7 +66,7 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
           <div style={{display: "flex",}}>
             <StyledCounter>{((index === timerToEdit) && showTempDuration) ? restTimer ? translateFromSeconds(tempRestDuration) : translateFromSeconds(tempWorkoutDuration) : duration}</StyledCounter>
             {(editMode && (index === timerToEdit)) && <div style={{display:"flex", flexDirection: "column", paddingLeft: "10px",}}>
-              <span style={{fontSize: "12px",}} onClick={() => {
+              <span style={{fontSize: "12px", cursor: "pointer",}} onClick={() => {
                 if (restTimer) {
                   setTempRestDuration(c => c + 1);
                 } else {
@@ -76,11 +74,11 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
                 }
                 setShowTempDuration(true);
               }}>&#x25B2;</span>
-              <span style={{fontSize: "12px",}} onClick={() => {
+              <span style={{fontSize: "12px", cursor: "pointer",}} onClick={() => {
                 if (restTimer) {
-                  setTempRestDuration(c => c - 1);
+                  tempRestDuration > 1 && setTempRestDuration(c => c - 1);
                 } else {
-                  setTempWorkoutDuration(c => c - 1);
+                  tempWorkoutDuration > 1 && setTempWorkoutDuration(c => c - 1);
                 }
                 setShowTempDuration(true);
               }}>&#x25BC;</span>
@@ -105,10 +103,25 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
 
   return (
       <>
-        {desc && <div style={{ margin: "10px 0 30px 0", }}><b>Description:</b> {desc}</div>}
+        {desc && <div style={{ margin: "10px 0 30px 0", }}><b>Description:</b> {(editMode && (index === timerToEdit)) ? <input className="newDesc" defaultValue={desc} /> : desc}</div>}
         <InnerCounter label={label} duration={duration} label2={label2} progress={progress} removeClick={removeClick} moveUp={moveUp} moveDown={moveDown} index={index} />
         {label_2 && <InnerCounter label={label_2} duration={duration_2} label2={label2_2} progress={progress_2} index={index} />}
-        {(editMode && (index === timerToEdit)) && <div style={{display:"flex", gap: "5px", paddingLeft: "50px",}}>
+        {rounds && 
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center",}}>
+          <div style={{ textAlign: "center",}}>Round: <b>{currentRoundVal}</b> of {((index === timerToEdit) && showTempDuration) ? tempRounds : rounds}</div>
+          {(editMode && (index === timerToEdit)) && <div style={{display:"flex", flexDirection: "column", paddingLeft: "10px",}}>
+            <span style={{fontSize: "10px", cursor: "pointer",}} onClick={() => {
+              setTempRounds(c => c + 1);
+              setShowTempDuration(true);
+            }}>&#x25B2;</span>
+            <span style={{fontSize: "10px", cursor: "pointer",}} onClick={() => {
+              tempRounds > 1 && setTempRounds(c => c - 1);
+              setShowTempDuration(true);
+            }}>&#x25BC;</span>
+          </div>}
+        </div>
+        }
+        {(editMode && (index === timerToEdit)) && <div style={{display:"flex", gap: "5px", paddingLeft: "50px", paddingTop: rounds ? "20px" : "0",}}>
           <StyledEditButton value="Save" onClick={() => {updateTimer();}}>Save</StyledEditButton>
           <StyledEditButton value="Discard" onClick={() => {
             setEditMode(false);

@@ -42,8 +42,9 @@ export const AppProvider = ({ children }) => {
     // const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
     const [editMode, setEditMode] = useState(false);
     const [showTempDuration, setShowTempDuration] = useState(false);
-    const [tempWorkoutDuration, setTempWorkoutDuration] = useState(0);
-    const [tempRestDuration, setTempRestDuration] = useState(0);
+    const [tempWorkoutDuration, setTempWorkoutDuration] = useState(1);
+    const [tempRestDuration, setTempRestDuration] = useState(1);
+    const [tempRounds, setTempRounds] = useState(1);
     // console.log(timers);
     // console.log(path);
     // console.log(completedWorkouts);
@@ -89,6 +90,7 @@ export const AppProvider = ({ children }) => {
       setPassedTime(0);
       setTempWorkoutDuration(0);
       setTempRestDuration(0);
+      setTempRounds(0);
     };
 
     const totalQueueDuration = timers.reduce((accumulator, object) => {
@@ -125,6 +127,8 @@ export const AppProvider = ({ children }) => {
           setTempWorkoutDuration,
           tempRestDuration,
           setTempRestDuration,
+          tempRounds,
+          setTempRounds,
           currentTime,
           passedTime,
           currentRound,
@@ -177,7 +181,9 @@ export const AppProvider = ({ children }) => {
                 wRoundDur: tempWorkoutDuration,
                 rRoundDur: tempRestDuration,
                 roundDur: tempWorkoutDuration + tempRestDuration,
-                totalDur: (tempWorkoutDuration * timer.rounds) + (tempRestDuration * timer.rounds),
+                rounds: tempRounds,
+                totalDur: (tempWorkoutDuration * tempRounds) + (tempRestDuration * tempRounds),
+                desc: document.getElementsByClassName("newDesc").length > 0 ? document.getElementsByClassName("newDesc")[0].value : timer.desc,
               };
               }
               return timer;
