@@ -3,16 +3,33 @@ import styled from "styled-components";
 import TimersView from "./views/TimersView";
 import CreateTimerView from "./views/CreateTimerView";
 import ButtonsView from "./views/ButtonsView";
-import HistoryView from "./views/HistoryView";
 import TopNav from "./components/generic/TopNav";
 import { AppProvider, AppContext } from "./AppProvider";
 import { HashRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import { ErrorBoundary } from 'react-error-boundary';
 
-const Container = styled.div`
+const ErrorFallback = ({ error, resetErrorBoundary }) => (
+  <div role="alert" style={{textAlign: "center",}}>
+    <p>Something went wrong:</p>
+    <pre>{error.message}</pre>
+    <Link style={{ color:"#305bbf",}} to="/">Start over</Link>
+  </div>
+);
+
+const StyledContainer = styled.div`
   background: #ffffff;
   height: 100vh;
   overflow: auto;
 `;
+
+const Container = ({ children }) => {
+
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <StyledContainer>{children}</StyledContainer>
+    </ErrorBoundary>
+  );
+};
 
 const RedirectToHomePage = () => {
 
@@ -27,7 +44,7 @@ const RedirectToHomePage = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <div style={{ textAlign: "center", margin: "50px 0",}}>This page doesn't exist!<br /><br />Redirecting you to homepage</div>
+  return <div style={{ textAlign: "center", margin: "50px 0",}}>This page doesn't exist!<br /><br />Redirecting you to homepage</div>;
 
 };
 
@@ -57,8 +74,8 @@ const HomePageInner = () => {
 const HomePage = () => {
   return (
     <Container>
-      <TopNav />
       <AppProvider>
+        <TopNav />
         <HomePageInner />
       </AppProvider>
     </Container>
@@ -86,8 +103,8 @@ const TimersPageInner = () => {
 const TimersPage = () => {
   return (
     <Container>
-      <TopNav />
       <AppProvider>
+        <TopNav />
         <TimersPageInner />
       </AppProvider>
     </Container>
@@ -120,12 +137,44 @@ const CreateTimerPageInner = () => {
 const CreateTimerPage = () => {
   return (
     <Container>
-      <TopNav />
       <AppProvider>
+        <TopNav />
         <CreateTimerPageInner />
       </AppProvider>
     </Container>
   );
+};
+
+const HistoryViewInner = () => {
+
+  const { timers } = useContext(AppContext);
+
+  const Arrow = () => {
+      return <>&#8678;</>
+  };
+
+  return (
+      <>
+          <div style={{ textAlign: "center", textDecoration: "underline", margin: "40px 0 0",}}>Completed workouts</div>
+          <div style={{ textAlign: "center", margin: "50px 0",}}>
+              <Link style={{ textAlign: "center", color:"#305bbf", fontWeight: "700", fontSize:"18px",}} to={`/w/${encodeURI(encodeURI(JSON.stringify(timers)))}`}><Arrow />&nbsp;&nbsp;Back to workout</Link>
+          </div>
+      </>
+  );
+
+};
+
+const HistoryView = () => {
+
+  return (
+    <Container>
+      <AppProvider>
+        <TopNav />
+        <HistoryViewInner />
+      </AppProvider>
+    </Container>
+  );
+
 };
 
 const App = () => {

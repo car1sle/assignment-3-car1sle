@@ -15,10 +15,6 @@ const StyledCounter = styled.div`
   display: inline-block;
 `;
 
-const StyledLabel = styled.span`
-  font-size: 15px;
-`;
-
 const StyledEditButton = styled.button`
   border-radius: 5px;
   font-weight: 600;
@@ -61,7 +57,7 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
           }} />}
         </div>
         <div style={{ width: "170px",}}>
-          <StyledLabel>{label}:</StyledLabel>
+          <span style={{fontSize: "15px",}}>{label}:</span>
           <br></br>
           <div style={{display: "flex",}}>
             <StyledCounter>{((index === timerToEdit) && showTempDuration) ? restTimer ? translateFromSeconds(tempRestDuration) : translateFromSeconds(tempWorkoutDuration) : duration}</StyledCounter>
@@ -86,11 +82,11 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
           </div>
         </div>
         <div>
-          {label2}:
+          <span style={{fontSize: "15px",}}>{label2}:</span>
           <br></br>
           <StyledCounter>{progress}</StyledCounter>
         </div>
-        {(!label.includes('Rest')) && <div style={{textAlign: "right", marginLeft: "auto", paddingRight: "20px",}}>
+        {((!label.includes('Rest')) && (timers.length > 1)) && <div style={{textAlign: "right", marginLeft: "auto", paddingRight: "20px",}}>
           <span style={{cursor: (!editMode && paused && index > 0) ? "pointer" : "not-allowed", opacity: (!editMode && paused && index > 0) ? 1 : 0.5,}} onClick={() => {moveUp();}}>&#x25B2;</span>
           <br />
           <span style={{cursor: (!editMode && paused && (index < timers.length - 1)) ? "pointer" : "not-allowed", opacity: (!editMode && paused && (index < timers.length - 1)) ? 1 : 0.5,}} onClick={() => {moveDown();}}>&#x25BC;</span>
