@@ -101,9 +101,23 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
       
   };
 
+  const Description = ({ desc }) => {
+
+    const TempDescriptionInput = () => {
+      return <input className="tempDesc" defaultValue={desc} />;
+    };
+
+    if (desc) {
+      return <div style={{ margin: "10px 0 30px 0", }}><b>Description:</b> {(editMode && (index === timerToEdit)) ? <TempDescriptionInput /> : desc}</div>;
+    } else if (editMode && (index === timerToEdit)) {
+      return <div style={{ margin: "10px 0 30px 0", }}><b>Description:</b> <TempDescriptionInput /></div>
+    }
+
+  };
+
   return (
       <>
-        {desc && <div style={{ margin: "10px 0 30px 0", }}><b>Description:</b> {(editMode && (index === timerToEdit)) ? <input className="newDesc" defaultValue={desc} /> : desc}</div>}
+        <Description desc={desc} />
         <InnerCounter label={label} duration={duration} label2={label2} progress={progress} removeClick={removeClick} moveUp={moveUp} moveDown={moveDown} index={index} />
         {label_2 && <InnerCounter label={label_2} duration={duration_2} label2={label2_2} progress={progress_2} index={index} />}
         {rounds && 

@@ -183,7 +183,7 @@ export const AppProvider = ({ children }) => {
                 roundDur: tempWorkoutDuration + tempRestDuration,
                 rounds: tempRounds,
                 totalDur: (tempWorkoutDuration * tempRounds) + (tempRestDuration * tempRounds),
-                desc: document.getElementsByClassName("newDesc").length > 0 ? document.getElementsByClassName("newDesc")[0].value : timer.desc,
+                desc: document.getElementsByClassName("tempDesc").length > 0 ? document.getElementsByClassName("tempDesc")[0].value : timer.desc,
               };
               }
               return timer;
