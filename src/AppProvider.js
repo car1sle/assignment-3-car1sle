@@ -39,6 +39,7 @@ export const AppProvider = ({ children }) => {
     const [isComplete, setIsComplete] = usePersistedState('isComplete', false);
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
+    const [showAddToHistory, setShowAddToHistory] = usePersistedState('showAddToHistory', false);
     // const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
     const [editMode, setEditMode] = useState(false);
     const [showTempDuration, setShowTempDuration] = useState(false);
@@ -48,7 +49,8 @@ export const AppProvider = ({ children }) => {
     // console.log(timers);
     // console.log(path);
     // console.log(completedWorkouts);
-    // console.log(isComplete);
+    console.log('isComplete: ' + isComplete);
+    console.log('showAddToHistory: ' + showAddToHistory);
 
     useEffect(() => {
 
@@ -91,6 +93,7 @@ export const AppProvider = ({ children }) => {
       setTempWorkoutDuration(0);
       setTempRestDuration(0);
       setTempRounds(0);
+      setShowAddToHistory(false);
     };
 
     const totalQueueDuration = timers.reduce((accumulator, object) => {
@@ -117,6 +120,8 @@ export const AppProvider = ({ children }) => {
       <AppContext.Provider
         value={{
           timers,
+          showAddToHistory,
+          setShowAddToHistory,
           // completedWorkouts,
           setTimers,
           editMode,

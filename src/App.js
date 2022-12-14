@@ -84,7 +84,12 @@ const HomePage = () => {
 
 const TimersPageInner = () => {
 
-  const { timers, paused } = useContext(AppContext);
+  const { timers, paused, setShowAddToHistory } = useContext(AppContext);
+
+  useEffect(() => {
+    setShowAddToHistory(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [])
 
   return (
     <>
@@ -147,17 +152,22 @@ const CreateTimerPage = () => {
 
 const HistoryViewInner = () => {
 
-  const { timers } = useContext(AppContext);
+  const { timers, setShowAddToHistory } = useContext(AppContext);
 
   const Arrow = () => {
       return <>&#8678;</>
   };
 
+  useEffect(() => {
+    setShowAddToHistory(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [])
+
   return (
       <>
           <div style={{ textAlign: "center", textDecoration: "underline", margin: "40px 0 0",}}>Completed workouts</div>
           <div style={{ textAlign: "center", margin: "50px 0",}}>
-              <Link style={{ textAlign: "center", color:"#305bbf", fontWeight: "700", fontSize:"18px",}} to={`/w/${encodeURI(encodeURI(JSON.stringify(timers)))}`}><Arrow />&nbsp;&nbsp;Back to workout</Link>
+              <Link style={{ textAlign: "center", color:"#305bbf", fontWeight: "700", fontSize:"18px",}} to={ (timers.length > 0) ? `/w/${encodeURI(encodeURI(JSON.stringify(timers)))}` : "/"}><Arrow />&nbsp;&nbsp;Back to workout</Link>
           </div>
       </>
   );
