@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TimersView from "./views/TimersView";
 import CreateTimerView from "./views/CreateTimerView";
 import ButtonsView from "./views/ButtonsView";
+import HistoryView from "./views/HistoryView";
 import TopNav from "./components/generic/TopNav";
 import { AppProvider, AppContext } from "./AppProvider";
 import { HashRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
@@ -150,7 +151,7 @@ const CreateTimerPage = () => {
   );
 };
 
-const HistoryViewInner = () => {
+const HistoryPageInner = () => {
 
   const { timers, setShowAddToHistory } = useContext(AppContext);
 
@@ -161,26 +162,27 @@ const HistoryViewInner = () => {
   useEffect(() => {
     setShowAddToHistory(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [])
+  }, [])
 
   return (
-      <>
-          <div style={{ textAlign: "center", textDecoration: "underline", margin: "40px 0 0",}}>Completed workouts</div>
-          <div style={{ textAlign: "center", margin: "50px 0",}}>
-              <Link style={{ textAlign: "center", color:"#305bbf", fontWeight: "700", fontSize:"18px",}} to={ (timers.length > 0) ? `/w/${encodeURI(encodeURI(JSON.stringify(timers)))}` : "/"}><Arrow />&nbsp;&nbsp;Back to workout</Link>
-          </div>
-      </>
+    <>
+      <div style={{ textAlign: "center", textDecoration: "underline", margin: "40px 0 0",}}>Completed workouts</div>
+      <HistoryView />
+      <div style={{ textAlign: "center", margin: "0 0 40px",}}>
+        <Link style={{ textAlign: "center", color:"#305bbf", fontWeight: "700", fontSize:"18px",}} to={ (timers.length > 0) ? `/w/${encodeURI(encodeURI(JSON.stringify(timers)))}` : "/"}><Arrow />&nbsp;&nbsp;Back to workout</Link>
+      </div>
+    </>
   );
 
 };
 
-const HistoryView = () => {
+const HistoryPage = () => {
 
   return (
     <Container>
       <AppProvider>
         <TopNav />
-        <HistoryViewInner />
+        <HistoryPageInner />
       </AppProvider>
     </Container>
   );
@@ -194,7 +196,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/add" element={<CreateTimerPage />} />
         <Route path="/w/:path" element={<TimersPage />} />
-        <Route path="/history" element={<HistoryView />} />
+        <Route path="/history" element={<HistoryPage />} />
         <Route path="*" element={<RedirectToHomePage />} />
       </Routes>
     </Router>

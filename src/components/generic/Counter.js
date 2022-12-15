@@ -87,9 +87,17 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
           <StyledCounter>{progress}</StyledCounter>
         </div>
         {((!label.includes('Rest')) && (timers.length > 1)) && <div style={{textAlign: "right", marginLeft: "auto", paddingRight: "20px",}}>
-          <span style={{cursor: (!editMode && paused && index > 0) ? "pointer" : "not-allowed", opacity: (!editMode && paused && index > 0) ? 1 : 0.5,}} onClick={() => {moveUp();}}>&#x25B2;</span>
+          <span style={{cursor: (!editMode && paused && index > 0) ? "pointer" : "not-allowed", opacity: (!editMode && paused && index > 0) ? 1 : 0.5,}} onClick={() => {
+            if (!editMode && paused && index > 0) {
+              moveUp();
+            }
+          }}>&#9651;</span>
           <br />
-          <span style={{cursor: (!editMode && paused && (index < timers.length - 1)) ? "pointer" : "not-allowed", opacity: (!editMode && paused && (index < timers.length - 1)) ? 1 : 0.5,}} onClick={() => {moveDown();}}>&#x25BC;</span>
+          <span style={{cursor: (!editMode && paused && (index < timers.length - 1)) ? "pointer" : "not-allowed", opacity: (!editMode && paused && (index < timers.length - 1)) ? 1 : 0.5,}} onClick={() => {
+            if (!editMode && paused && (index < timers.length - 1)) {
+              moveDown();
+            }
+          }}>&#9661;</span>
         </div>}
       </div>
 

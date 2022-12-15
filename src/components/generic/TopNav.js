@@ -4,7 +4,7 @@ import { AppContext } from "../../AppProvider";
 
 const TopNav = () => {
 
-  const { isComplete, showAddToHistory, setShowAddToHistory } = useContext(AppContext);
+  const { isComplete, addToHistory, showAddToHistory, setShowAddToHistory } = useContext(AppContext);
 
   useEffect(() => {
     if (isComplete) {
@@ -19,11 +19,10 @@ const TopNav = () => {
         <Link style={{ color:"#305bbf",}} to="/history">See workout history</Link>
       </div>
       {showAddToHistory && <div>
-        <Link style={{ color:"#305bbf",}} to="/history">
-          <button style={{ margin: "0 auto", textAlign: "center",}} onClick={() => {
-            setShowAddToHistory(false);
-          }}>Add to workout history</button>
-        </Link>
+        <button style={{ margin: "0 auto", textAlign: "center",}} onClick={() => {
+          addToHistory();
+          setShowAddToHistory(false);
+        }}>Add to workout history</button>
       </div>}
       <div style={{ textAlign: "right",}}>
         <Link style={{ color:"#305bbf",}} to="/">Start over</Link>

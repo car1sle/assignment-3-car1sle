@@ -40,17 +40,12 @@ export const AppProvider = ({ children }) => {
     const [currentRound, setCurrentRound] = usePersistedState('currentRound', 1);
     const [onlyEnableStart, setOnlyEnableStart] = usePersistedState('onlyEnableStart', false);
     const [showAddToHistory, setShowAddToHistory] = usePersistedState('showAddToHistory', false);
-    // const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
+    const [completedWorkouts, setCompletedWorkouts] = usePersistedState('completedWorkouts', []);
     const [editMode, setEditMode] = useState(false);
     const [showTempDuration, setShowTempDuration] = useState(false);
     const [tempWorkoutDuration, setTempWorkoutDuration] = useState(1);
     const [tempRestDuration, setTempRestDuration] = useState(1);
     const [tempRounds, setTempRounds] = useState(1);
-    // console.log(timers);
-    // console.log(path);
-    // console.log(completedWorkouts);
-    console.log('isComplete: ' + isComplete);
-    console.log('showAddToHistory: ' + showAddToHistory);
 
     useEffect(() => {
 
@@ -120,9 +115,9 @@ export const AppProvider = ({ children }) => {
       <AppContext.Provider
         value={{
           timers,
+          completedWorkouts,
           showAddToHistory,
           setShowAddToHistory,
-          // completedWorkouts,
           setTimers,
           editMode,
           setEditMode,
@@ -197,6 +192,9 @@ export const AppProvider = ({ children }) => {
             setEditMode(false);
             setShowTempDuration(false);
             navigate(`/w/${encodeURI(encodeURI(JSON.stringify(newTimers)))}`);
+          },
+          addToHistory: () => {
+            setCompletedWorkouts([...completedWorkouts, timers]);
           },
         }}
       >
