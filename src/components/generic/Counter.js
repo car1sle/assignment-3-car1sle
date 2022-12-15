@@ -15,7 +15,7 @@ const StyledCounter = styled.div`
   display: inline-block;
 `;
 
-const StyledEditButton = styled.button`
+const StyledSaverButtons = styled.button`
   border-radius: 5px;
   font-weight: 600;
   padding: 3px 9px;
@@ -24,6 +24,18 @@ const StyledEditButton = styled.button`
   font-size: 14px;
 `;
 
+const MoveButton = ({ enabler, onClick, char }) => {
+  return (
+    <span style={{cursor: (enabler) ? "pointer" : "not-allowed", opacity: (enabler) ? 1 : 0.5, fontWeight: "700", fontSize: "20px", lineHeight: "23px",}} onClick={enabler ? onClick : undefined}>{char}</span>
+  );
+};
+
+const RoundIncrementer = ({ onClick, char }) => {
+  return (
+    <span style={{fontSize: "15px", lineHeight: "16px", cursor: "pointer", fontWeight: "700",}} onClick={onClick}>{char}</span>
+  );
+};
+
 const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progress, progress_2, removeClick, desc, moveUp, moveDown, index, rounds, currentRoundVal }) => {
 
   const { timers, paused, reset, setEditMode, editMode, timerToEdit, setTimerToEdit, updateTimer, showTempDuration, setShowTempDuration, tempWorkoutDuration, setTempWorkoutDuration, tempRestDuration, setTempRestDuration, tempRounds, setTempRounds } = useContext(AppContext);
@@ -31,7 +43,7 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
 
   const InnerCounter = ({ label, duration, label2, progress, removeClick, moveUp, moveDown, index }) => {
 
-    const restTimer = (label.indexOf("Rest") > -1) ? true : false;
+    const isRestTimer = (label.indexOf("Rest") > -1) ? true : false;
 
     return (
 
@@ -60,24 +72,24 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
           <span style={{fontSize: "15px",}}>{label}:</span>
           <br></br>
           <div style={{display: "flex",}}>
-            <StyledCounter>{((index === timerToEdit) && showTempDuration) ? restTimer ? translateFromSeconds(tempRestDuration) : translateFromSeconds(tempWorkoutDuration) : duration}</StyledCounter>
+            <StyledCounter>{((index === timerToEdit) && showTempDuration) ? isRestTimer ? translateFromSeconds(tempRestDuration) : translateFromSeconds(tempWorkoutDuration) : duration}</StyledCounter>
             {(editMode && (index === timerToEdit)) && <div style={{display:"flex", flexDirection: "column", paddingLeft: "10px",}}>
-              <span style={{fontSize: "12px", cursor: "pointer",}} onClick={() => {
-                if (restTimer) {
+              <span style={{fontSize: "15px", lineHeight: "16px", fontWeight: "700", cursor: "pointer",}} onClick={() => {
+                if (isRestTimer) {
                   setTempRestDuration(c => c + 1);
                 } else {
                   setTempWorkoutDuration(c => c + 1);
                 }
                 setShowTempDuration(true);
-              }}>&#x25B2;</span>
-              <span style={{fontSize: "12px", cursor: "pointer",}} onClick={() => {
-                if (restTimer) {
+              }}>&#9651;</span>
+              <span style={{fontSize: "15px", lineHeight: "16px", fontWeight: "700", cursor: "pointer",}} onClick={() => {
+                if (isRestTimer) {
                   tempRestDuration > 1 && setTempRestDuration(c => c - 1);
                 } else {
                   tempWorkoutDuration > 1 && setTempWorkoutDuration(c => c - 1);
                 }
                 setShowTempDuration(true);
-              }}>&#x25BC;</span>
+              }}>&#9661;</span>
             </div>}
           </div>
         </div>
@@ -87,17 +99,9 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
           <StyledCounter>{progress}</StyledCounter>
         </div>
         {((!label.includes('Rest')) && (timers.length > 1)) && <div style={{textAlign: "right", marginLeft: "auto", paddingRight: "20px",}}>
-          <span style={{cursor: (!editMode && paused && index > 0) ? "pointer" : "not-allowed", opacity: (!editMode && paused && index > 0) ? 1 : 0.5,}} onClick={() => {
-            if (!editMode && paused && index > 0) {
-              moveUp();
-            }
-          }}>&#9651;</span>
+          <MoveButton enabler={(!editMode && paused && index > 0)} onClick={() => {moveUp();}} char="&#x25B2;" />
           <br />
-          <span style={{cursor: (!editMode && paused && (index < timers.length - 1)) ? "pointer" : "not-allowed", opacity: (!editMode && paused && (index < timers.length - 1)) ? 1 : 0.5,}} onClick={() => {
-            if (!editMode && paused && (index < timers.length - 1)) {
-              moveDown();
-            }
-          }}>&#9661;</span>
+          <MoveButton enabler={(!editMode && paused && (index < timers.length - 1))} onClick={() => {moveDown();}} char="&#x25BC;" />
         </div>}
       </div>
 
@@ -128,24 +132,26 @@ const Counter = ({ label, label_2, duration, duration_2, label2, label2_2, progr
         <div style={{display: "flex", justifyContent: "center", alignItems: "center",}}>
           <div style={{ textAlign: "center",}}>Round: <b>{currentRoundVal}</b> of {((index === timerToEdit) && showTempDuration) ? tempRounds : rounds}</div>
           {(editMode && (index === timerToEdit)) && <div style={{display:"flex", flexDirection: "column", paddingLeft: "10px",}}>
-            <span style={{fontSize: "10px", cursor: "pointer",}} onClick={() => {
+            <RoundIncrementer char="&#9651;" onClick={() => {
               setTempRounds(c => c + 1);
               setShowTempDuration(true);
-            }}>&#x25B2;</span>
-            <span style={{fontSize: "10px", cursor: "pointer",}} onClick={() => {
+            }} />
+            <RoundIncrementer char="&#9661;" onClick={() => {
               tempRounds > 1 && setTempRounds(c => c - 1);
               setShowTempDuration(true);
-            }}>&#x25BC;</span>
+            }} />
           </div>}
         </div>
         }
         {(editMode && (index === timerToEdit)) && <div style={{display:"flex", gap: "5px", paddingLeft: "50px", paddingTop: rounds ? "20px" : "0",}}>
-          <StyledEditButton value="Save" onClick={() => {updateTimer();}}>Save</StyledEditButton>
-          <StyledEditButton value="Discard" onClick={() => {
+          <StyledSaverButtons value="Save" onClick={() => {
+            updateTimer();
+          }}>Save</StyledSaverButtons>
+          <StyledSaverButtons value="Discard" onClick={() => {
             setEditMode(false);
             setShowTempDuration(false);
             reset();
-          }}>Discard</StyledEditButton>
+          }}>Discard</StyledSaverButtons>
         </div>}
       </>
   );
