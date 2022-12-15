@@ -49,7 +49,6 @@ We will be grading based on the features listed above and overall code quality
 ### Deployment Instructions (GH actions)
 
 - https://prof-tejera.github.io/assignment-3-car1sle/#/workout
-- NOTE TO PROF: For persisting the timer through the URL, if pasting into an incognito window, the workout will start running for some reason. But if using a regular window, it seems to work correctly.
 
 ## Bonus
 

@@ -27,11 +27,9 @@ export const usePersistedState = (storageKey, fallbackValue) => {
   const [value, setValue] = useState(() => {
     const storedValue = window.localStorage.getItem(storageKey);
 
-    if (storageKey !== 'paused') {
-      if (storedValue === null || !storedValue) {
-        // console.log('returning fallback for' , storageKey , fallbackValue)
-        return fallbackValue;
-      }
+    if (storedValue === null || typeof storedValue === 'undefined') {
+      // console.log('returning fallback for' , storageKey , fallbackValue)
+      return fallbackValue;
     }
 
     try {
@@ -43,7 +41,7 @@ export const usePersistedState = (storageKey, fallbackValue) => {
   });
 
   useEffect(() => {
-    if (value) {
+    if (value !== null || typeof value !== 'undefined') {
       window.localStorage.setItem(storageKey, JSON.stringify(value));
     } else {
       window.localStorage.removeItem(storageKey);
